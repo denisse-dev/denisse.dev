@@ -15,13 +15,13 @@ tags:
 
 ## El AUR
 
-Una de las cosas que más me gustan de usar Arch Linux es el [AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol)), un repositorio comunitario con miles de [PKGBUILDs](https://wiki.archlinux.org/title/PKGBUILD_(Espa%C3%B1ol)) que permiten instalar y actualizar programas fácilmente y favorecen la colaboración comunitaria.
+Una de las cosas que más me gustan de usar [Arch Linux](https://archlinux.org/) es el [AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol)), un repositorio comunitario con miles de [PKGBUILD](https://wiki.archlinux.org/title/PKGBUILD_(Espa%C3%B1ol)) que permiten instalar y actualizar programas fácilmente y que favorece la colaboración comunitaria.
 
 ## Mi entorno
 
-Al editar `PKGBUILD`s uso el modo [pkgbuild-mode](https://melpa.org/#/pkgbuild-mode) en Emacs para tener resaltado de sintaxis, validación de errores de sintaxis y autocompletado.
+Al editar un **PKGBUILD** uso el modo [pkgbuild-mode](https://melpa.org/#/pkgbuild-mode) en [Emacs](https://wiki.archlinux.org/title/Emacs_(Espa%C3%B1ol)) para tener resaltado de sintaxis, validación de sintaxis y autocompletado.
 
-Con el siguiente snippet habilito la detección de archivos PKGBUILD para automáticamente iniciar `pkgbuild-mode`:
+Con el siguiente snippet de [Emacs Lisp](https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html) habilito la detección de archivos **PKGBUILD** para automáticamente iniciar **pkgbuild-mode** en Emacs:
 
 ```emacs-lisp
 (autoload 'pkgbuild-mode "pkgbuild-mode.el" "PKGBUILD mode." t)
@@ -32,26 +32,59 @@ Con el siguiente snippet habilito la detección de archivos PKGBUILD para autom�
 Recomiendo instalar y configurar los siguientes paquetes:
 
 0. [paru](https://aur.archlinux.org/packages/paru/): [Ayudante de AUR](https://wiki.archlinux.org/title/AUR_helpers_(Espa%C3%B1ol))
-1. [namcap](https://wiki.archlinux.org/title/Namcap): Para detectar errores en el PKGBUILD.
-2. [aurpublish](https://github.com/eli-schwartz/aurpublish): Framework para interactuar con el AUR.
+1. [namcap](https://archlinux.org/packages/extra/any/namcap/): Para detectar errores en archivos PKGBUILD.
+2. [aurpublish](https://archlinux.org/packages/community/any/aurpublish/): Framework para interactuar con el AUR.
 
 ## Tipos de paquetes
 
-En el AUR podemos encontrar 3 tipos de paquetes, usaré el paquete [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/) como ejemplo:
+En el **AUR** podemos encontrar 3 tipos de paquetes que podemos identificar como **PAQUETE**, **PAQUETE-bin** y **PAQUETE-git**. Usaré el paquete [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/) como ejemplo:
 
-0. Paquete [oauth2-proxy](https://aur.archlinux.org/packages/oauth2-proxy/) en el AUR
+0. [oauth2-proxy](https://aur.archlinux.org/packages/oauth2-proxy/):
 
-   El paquete `oauth2-proxy` descarga y compila el código fuente de un release de oauth2-proxy que se identifica con un tag de Git en upstream.
+   El paquete **oauth2-proxy** descarga y compila el código fuente de un release de **oauth2-proxy** que se identifica con un tag de [Git](https://git-scm.com/) en upstream.
 
-1. Paquete [oauth2-proxy-bin](https://aur.archlinux.org/packages/oauth2-proxy-bin/) en el AUR
+   Ventajas:
 
-   El paquete `oauth2-proxy-bin` descarga un binario para las arquitecturas soportadas un release de oauth2-proxy en upstream.
+   - Provee una versión considerada estable del paquete
+   - El binario se puede compilar para múltiples arquitecturas
+   - El binario se puede optimizar para tu equipo
 
-2. Paquete [oauth2-proxy-git](https://aur.archlinux.org/packages/oauth2-proxy-git/) en el AUR
+   Desventajas:
 
-   El paquete `oauth2-proxy-git` descarga y compila el código fuente del último commit en upstream.
+   - Compilarlo puede ser tardado en ciertos equipos
 
-Aunque los 3 paquetes tienen un nombre diferente en el AUR el paquete que instalan debe llamarse `oauth2-proxy`y tener conflicto con `oauth2-proxy` para evitar que pacman instale diferentes versiones de un mismo paquete al mismo tiempo, así se puede hacer en un `PKGBUILD`:
+1. [oauth2-proxy-bin](https://aur.archlinux.org/packages/oauth2-proxy-bin/):
+
+   El paquete **oauth2-proxy-bin** descarga un binario para las arquitecturas soportadas un release de **oauth2-proxy-bin** en upstream.
+
+   Ventajas:
+
+   - Provee una versión considerada estable del paquete
+   - No requiere compilar un binario
+
+   Desventajas:
+
+   - Puede no haber binarios en upstream para ciertas arquitecturas
+   - Puede que el binario no esté optimizado para tu equipo
+   - Puede que el binario no esté hardenizado
+
+2. [oauth2-proxy-git](https://aur.archlinux.org/packages/oauth2-proxy-git/):
+
+   El paquete **oauth2-proxy-bin** descarga y compila el código fuente del último commit de **oauth2-proxy-bin** en upstream.
+
+   Ventajas:
+
+   - Provee los cambios más recientes publicados en upstream
+   - El **PKGBUILD** es fácil de mantener pues no se hace validación por checksums
+   - El binario se puede compilar para múltiples arquitecturas
+   - El binario se puede optimizar para tu equipo
+
+   Desventajas:
+
+   - Compilarlo puede ser tardado en ciertos equipos
+   - Puede tener cambios considerados inestables
+
+Aunque los 3 paquetes tienen un nombre diferente en el **AUR** el paquete que instalan debe llamarse **oauth2-proxy** y tener conflicto con **oauth2-proxy** para evitar que [pacman](https://wiki.archlinux.org/title/Pacman_(Espa%C3%B1ol)) instale diferentes versiones de un mismo paquete al mismo tiempo[^conflictos-mismo-paquete-aur]:
 
 ```bash
 pkgname=oauth2-proxy
@@ -61,12 +94,12 @@ conflicts=($pkgname)
 
 ## Contribuyendo al AUR
 
-Una de las primeras maneras de contribuir a Arch Linux y el primer paso para ser [Trusted User](https://wiki.archlinux.org/title/Trusted_Users_(Espa%C3%B1ol)) es mantener paquetes para el AUR.
+Una de las primeras maneras de contribuir a Arch Linux y el primer paso para ser [Trusted User](https://wiki.archlinux.org/title/Trusted_Users_(Espa%C3%B1ol)) es mantener paquetes para el AUR[^trusted-user-mantener-paquetes].
 
 Sigo los siguientes pasos al empaquetar software para el AUR.
 
 0. [Escoger lo que voy a empaquetar](#escoger-lo-que-voy-a-empaquetar)
-1. [Lo que un PKGBUILD debe instalar y cómo lo debe hacer](#lo-que-un-pkgbuild-debe-instalar-y-cómo-lo-debe-hacer)
+1. [Definir lo que un PKGBUILD debe instalar](#definir-lo-que-un-pkgbuild-debe-instalar)
 2. [Validar el PKGBUILD](#validar-el-pkgbuild)
 3. [Actualizar checksums](#actualizar-checksums)
 4. [Construir el paquete](#construir-el-paquete)
@@ -76,32 +109,32 @@ Sigo los siguientes pasos al empaquetar software para el AUR.
 
 ### Escoger lo que voy a empaquetar
 
-El primer paso es verificar que lo que queremos empaquetar no esté en el AUR para evitar duplicados.
+El primer paso es verificar que lo que queremos empaquetar no se encuentre disponible ni en los [Repositorios Oficiales](https://wiki.archlinux.org/title/Official_repositories_(Espa%C3%B1ol)) ni en el **AUR** para evitar tener paquetes duplicados.[^paquetes-duplicados-en-aur]
 
-Para inicializar el repositorio de un paquete nuevo:
-
-```bash
-$ aurpublish setup
-```
-
-Para clonar el repositorio de un [paquete huérfano](https://aur.archlinux.org/packages/?SB=n&do_Orphans=Orphans):
+Para crear el repositorio de un paquete nuevo con [git(1)](https://man.archlinux.org/man/git.1):
 
 ```bash
-$ aurpublish -p PACKAGE
+$ git clone ssh://aur@aur.archlinux.org/<PAQUETE>.git
 ```
 
-### Lo que un PKGBUILD debe instalar y cómo lo debe hacer
+Para clonar el repositorio de un [paquete huérfano](https://aur.archlinux.org/packages/?SB=n&do_Orphans=Orphans) con [aurpublish(1)](https://man.archlinux.org/man/aurpublish.1):
 
-Un PKGBUILD debe instalar lo siguiente:
+```bash
+$ aurpublish -p <PAQUETE>
+```
+
+### Definir lo que un PKGBUILD debe instalar
+
+Un **PKGBUILD** debe instalar lo siguiente:
 
 0. Instalar el paquete.
-1. Instalar la licencia el paquete usa una licencia que no se encuentra en el archivo [licenses](https://archlinux.org/packages/core/any/licenses/) (ej. [MIT](https://en.wikipedia.org/wiki/MIT_License)).
-2. Instalar la configuración por defecto si en upstream hay una.
-3. Instalar servicios si en upstream hay algunos.
+1. Instalar la licencia el paquete usa una licencia que no se encuentra en el archivo [licenses](https://archlinux.org/packages/core/any/licenses/) (ej. [MIT](https://en.wikipedia.org/wiki/MIT_License)).[^instalar-licencia-pkgbuild]
+2. Instalar la configuración por defecto si existe en upstream.
+3. Instalar los [demonios](https://wiki.archlinux.org/title/Daemons_(Espa%C3%B1ol)) si existen en upstream.
 
-Y debe hacerlo siguiendo la [_Guía para paquetes de Arch_](https://wiki.archlinux.org/title/Arch_package_guidelines_(Espa%C3%B1ol)) y la guía específica para el lenguaje que estás empaquetando.
+Y debe hacerlo siguiendo la [Guía para paquetes de Arch](https://wiki.archlinux.org/title/Arch_package_guidelines_(Espa%C3%B1ol)), la guía para paquetes específica del lenguaje que estás empaquetando y las [Reglas de envío del AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol)#Reglas_de_env%C3%ADo).
 
-En el [PKGBUILD](https://github.com/da-edra/pkgbuilds/blob/trunk/benthos/PKGBUILD) que escribí para `benthos` seguí la _Guía para paquetes de Arch_ y la [_Guía para paquetes de Go_](https://wiki.archlinux.org/title/Go_package_guidelines) para obtener ventajas en seguridad como [PIE](https://access.redhat.com/blogs/766093/posts/1975793) y mejorar la [reproducibilidad del paquete](https://wiki.archlinux.org/title/Reproducible_Builds):
+El [PKGBUILD](https://github.com/da-edra/pkgbuilds/blob/trunk/oauth2-proxy/PKGBUILD) que escribí para **oauth2-proxy** seguí la Guía para paquetes de Arch y la [Guía para paquetes de Go](https://wiki.archlinux.org/title/Go_package_guidelines) para obtener un binario hardenizado usando compilación [PIE](https://en.wikipedia.org/wiki/Position-independent_code) y mejorar la [reproducibilidad del paquete](https://wiki.archlinux.org/title/Reproducible_Builds):
 
 ```shell
 # Maintainer: Andrea Denisse Gómez-Martínez <denisse at archlinux dot org>
@@ -156,15 +189,15 @@ package() {
 
 ### Validar el PKGBUILD
 
-Uso `namcap` para buscar errores comunes en el PKGBUILD:
+Para buscar errores comunes en el PKGBUILD uso [namcap(1)](https://man.archlinux.org/man/namcap.1):
 
 ```bash
 $ namcap PKGBUILD
 ```
 
-La configuración por defecto del archivo [makepkg.conf](https://man.archlinux.org/man/makepkg.conf.5.en) ejecuta la función `check()` si se encuentra en el `PKGBUILD`. En la función `check()` se pueden agregar diferentes validaciones adicionales como ejecutar los tests que el paquete contiene upstream.
+Algunos paquetes incluyen una función **check()** en la que se pueden agregar validaciones adicionales como ejecutar los tests que el paquete contiene upstream.[^función-check]
 
-Check también se puede ejecutar manualmente:
+La configuración por defecto del archivo **makepkg.conf** ejecuta la función **check()** si ésta se encuentra en el **PKGBUILD**.[^config-makepkg.conf]. **check()** también se puede ejecutar manualmente:
 
 ```bash
 $ makepkg --check PKGBUILD
@@ -172,56 +205,64 @@ $ makepkg --check PKGBUILD
 
 ### Actualizar checksums
 
-El `PKGBUILD` de paquetes de tipo `PACKAGE` y `PACKAGE-bin` debe tener checksums para validar la [integridad del paquete](https://wiki.archlinux.org/title/PKGBUILD#Integrity). Usar los hashes que se encuentran en upstream garantiza la integridad del paquete desde su publicación hasta su instalación, ej:
+El **PKGBUILD** de paquetes de tipo **PAQUETE** y **PAQUETE-bin** debe tener **checksums** que permiten verificar la integridad del paquete bajado de upstream.
+
+Si un paquete incluye **checksums** en upstream es importante usar esos **checksums** en el **PKGBUILD** para garantizar la integridad del paquete desde su publicación en upstream hasta su instalación en local:[^checksums-integridad-de-paquete]
 
 ```bash
 b2sums=('79586b8592a246ddb9a75752329e94bcc8d8924dcbe2eb2c7bdd1a11981e4ee39abcea86fb7b76e8c54dc8dd0f20d8b5d4b5f63025380f1ed9efbcca8c9b0bb7')
 ```
 
-En el caso de `PACKAGE-git` se debe saltar la validación de checksums.
+Si un paquete no cuenta con hashes en upstream estos se pueden generar con [updpkgsums(8)](https://man.archlinux.org/man/updpkgsums.8.en) :
 
+```bash
+updpkgsums PKGBUILD
 ```
+
+En el caso de **PACKAGE-git** se debe saltar la validación de checksums:
+
+```bash
 b2sums=(SKIP)
 ```
 
 ### Construir el paquete
 
-Los [paquetes que mantengo](https://aur.archlinux.org/packages/?O=0&SeB=M&K=denisse&outdated=&SB=n&SO=a&PP=50&do_Search=Go) están organizados en carpetas con el nombre del paquete y contienen un `PKGBUILD` y un `.SRCINFO`:
+Los [paquetes que mantengo](https://aur.archlinux.org/packages/?O=0&SeB=M&K=denisse&outdated=&SB=n&SO=a&PP=50&do_Search=Go) están organizados en carpetas que llevan el nombre del paquete. Cada carpeta contiene un archivo **PKGBUILD** y un archivo [.SRCINFO](https://wiki.archlinux.org/title/.SRCINFO):
 
-```
+```bash
 .
 ├── oaut2-proxy
-│  ├──  .SRCINFO
-│  └──  PKGBUILD
+│  ├── .SRCINFO
+│  └── PKGBUILD
 ├── oaut2-proxy-bin
-│  ├──  .SRCINFO
-│  └──  PKGBUILD
+│  ├── .SRCINFO
+│  └── PKGBUILD
 └── oaut2-proxy-git
-   ├──  .SRCINFO
-   └──  PKGBUILD
+   ├── .SRCINFO
+   └── PKGBUILD
 ```
 
-Construyo el paquete con `makepkg`:
+Construyo el paquete con [makepkg(8)](https://man.archlinux.org/man/makepkg.8.en):
 
 ```bash
 $ makepkg --clean --syncdeps --force
 ```
 
-`--clean` para limpiar el directorio después de construir el paquete
+**--clean** limpia el directorio después de construir el paquete
 
-`--syncdeps` para instalar dependencias faltantes
+**--syncdeps** instala dependencias faltantes
 
-`--force` para sobreescribir un paquete ya construido.
+**--force** sobrescribe un paquete ya construido
 
 ### Instalar el paquete
 
-Instalo el paquete con `makepkg`:
+Instalo el paquete con [makepkg(8)](https://man.archlinux.org/man/makepkg.8.en):
 
 ```bash
 $ makepkg --install
 ```
 
-Y realizo las siguientes validaciones:
+Realizo las siguientes validaciones:
 
 0. El paquete funciona como se espera.
 1. Si se necesitan licencias éstas están instaladas.
@@ -230,7 +271,7 @@ Y realizo las siguientes validaciones:
 
 ### Generar .SRCINFO
 
-Con `makepkg` creo al archivo [.SRCINFO](https://wiki.archlinux.org/title/.SRCINFO) que contiene metadatos organizados en pares de `llave = valor` que es más fácil de parsear y seguro de parsear que un PKGBUILD.
+Genero el archivo **.SRCINFO** con [makepkg(8)](https://man.archlinux.org/man/makepkg.8.en). **.SRCINFO** contiene metadatos organizados en pares de `llave = valor` que son más fáciles y seguros de parsear que un PKGBUILD.[^problemas-parseando-pkgbuilds]
 
 ```bash
 $ makepkg --printsrcinfo > .SRCINFO
@@ -238,7 +279,7 @@ $ makepkg --printsrcinfo > .SRCINFO
 
 ### Publicar el paquete
 
-El último paso es usar `aurpublish` para publicar el paquete:
+El último paso es usar [aurpublish(1)](https://man.archlinux.org/man/aurpublish.1) para publicar el paquete:
 
 ```bash
 $ aurpublish PACKAGE
@@ -286,14 +327,23 @@ publish: ## publish the PKGBUILD to the AUR
 	aurpublish $(pkg)
 ```
 
-Actualizando un PKGBUILD:
+Actualizando un **PKGBUILD**:
 
 ```bash
-make update-pkg pkg=PACKAGE`
+make update-pkg pkg=PACKAGE
 ```
 
-Publicando un PKGBUILD:
+Publicando un **PKGBUILD**:
 
 ```bash
-make publish pkg=PACKAGE`
+make publish pkg=PACKAGE
 ```
+
+[^conflictos-mismo-paquete-aur]: [Conflictos en paquetes del AUR](https://wiki.archlinux.org/title/PKGBUILD#conflicts)
+[^trusted-user-mantener-paquetes]: [Requisitos mínimos para ser Trusted User](https://wiki.archlinux.org/title/Trusted_Users_(Espa%C3%B1ol)#%C2%BFC%C3%B3mo_me_convierto_en_un_TU?)
+[^instalar-licencia-pkgbuild]: [Instalar la LICENCIA del paquete](https://wiki.archlinux.org/title/PKGBUILD#license)
+[^config-makepkg.conf]: [Configuración por defecto de makepkg.conf](https://man.archlinux.org/man/makepkg.conf.5.en)
+[^función-check]: [Función check() de un PKGBUILD](https://wiki.archlinux.org/title/Creating_packages#check())
+[^paquetes-duplicados-en-aur]: [Reglas de envío para el AUR](https://wiki.archlinux.org/title/Arch_User_Repository_(Espa%C3%B1ol)#Reglas_de_env%C3%ADo)
+[^checksums-integridad-de-paquete]:  [Validar la integridad del paquete con checksums](https://wiki.archlinux.org/title/PKGBUILD#Integrity)
+[^problemas-parseando-pkgbuilds]: Diferentes problemas encontrados en al parsear PKGBUILD: [FS#25210](https://bugs.archlinux.org/task/25210), [FS#15043](https://bugs.archlinux.org/task/15043), y [FS#16394](https://bugs.archlinux.org/task/16394)
