@@ -152,7 +152,6 @@ package() {
   install -Dm644 "contrib/$pkgname.cfg.example" "$pkgdir/etc/oauth2-proxy.cfg"
   install -Dm644 "contrib/$pkgname.service.example" "$pkgdir/usr/lib/systemd/system/oauth2-proxy.service"
 }
-
 ```
 
 ### Validar el PKGBUILD
