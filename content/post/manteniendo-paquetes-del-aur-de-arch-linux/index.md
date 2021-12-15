@@ -37,24 +37,24 @@ Recomiendo instalar y configurar los siguientes paquetes:
 
 ## Tipos de paquetes
 
-En el AUR podemos encontrar 3 tipos de paquetes, usaré el paquete [benthos](https://www.benthos.dev/) como ejemplo:
+En el AUR podemos encontrar 3 tipos de paquetes, usaré el paquete [oauth2-proxy](https://oauth2-proxy.github.io/oauth2-proxy/) como ejemplo:
 
-0. Paquete [benthos](https://aur.archlinux.org/packages/benthos/) en el AUR
+0. Paquete [oauth2-proxy](https://aur.archlinux.org/packages/oauth2-proxy/) en el AUR
 
-   El paquete `benthos` descarga y compila el código fuente de un release de benthos que se identifica con un tag de Git en upstream.
+   El paquete `oauth2-proxy` descarga y compila el código fuente de un release de oauth2-proxy que se identifica con un tag de Git en upstream.
 
-1. Paquete [benthos-bin](https://aur.archlinux.org/packages/benthos-bin/) en el AUR
+1. Paquete [oauth2-proxy-bin](https://aur.archlinux.org/packages/oauth2-proxy-bin/) en el AUR
 
-   El paquete `benthos-bin` descarga un binario para las arquitecturas soportadas un release de benthos en upstream.
+   El paquete `oauth2-proxy-bin` descarga un binario para las arquitecturas soportadas un release de oauth2-proxy en upstream.
 
-2. Paquete [benthos-git](https://aur.archlinux.org/packages/benthos-git/) en el AUR
+2. Paquete [oauth2-proxy-git](https://aur.archlinux.org/packages/oauth2-proxy-git/) en el AUR
 
-   El paquete `benthos-git` descarga y compila el código fuente del último commit en upstream.
+   El paquete `oauth2-proxy-git` descarga y compila el código fuente del último commit en upstream.
 
-Aunque los 3 paquetes tienen un nombre diferente en el AUR el paquete que instalan debe llamarse `benthos`y tener conflicto con `benthos` para evitar que pacman instale diferentes versiones de un mismo paquete al mismo tiempo, así se puede hacer en un `PKGBUILD`:
+Aunque los 3 paquetes tienen un nombre diferente en el AUR el paquete que instalan debe llamarse `oauth2-proxy`y tener conflicto con `oauth2-proxy` para evitar que pacman instale diferentes versiones de un mismo paquete al mismo tiempo, así se puede hacer en un `PKGBUILD`:
 
 ```bash
-pkgname=benthos
+pkgname=oauth2-proxy
 provides=($pkgname)
 conflicts=($pkgname)
 ```
@@ -104,20 +104,33 @@ Y debe hacerlo siguiendo la [_Guía para paquetes de Arch_](https://wiki.archlin
 En el [PKGBUILD](https://github.com/da-edra/pkgbuilds/blob/trunk/benthos/PKGBUILD) que escribí para `benthos` seguí la _Guía para paquetes de Arch_ y la [_Guía para paquetes de Go_](https://wiki.archlinux.org/title/Go_package_guidelines) para obtener ventajas en seguridad como [PIE](https://access.redhat.com/blogs/766093/posts/1975793) y mejorar la [reproducibilidad del paquete](https://wiki.archlinux.org/title/Reproducible_Builds):
 
 ```shell
-pkgname=benthos
-pkgdesc='Declarative stream processing for mundane tasks and data engineering.'
-arch=(aarch64 armv5h armv6h armv7h x86_64)
-url='https://benthos.dev'
-_url='https://github.com/Jeffail/benthos'
+# Maintainer: Andrea Denisse Gómez-Martínez <aur at denisse dot dev>
+
+pkgname=oauth2-proxy
+pkgdesc='A reverse proxy that provides authentication with Google, Github or other providers.'
+arch=(any)
+url='https://oauth2-proxy.github.io/oauth2-proxy/'
+_url='https://github.com/oauth2-proxy/oauth2-proxy'
 _branch='master'
-pkgver=3.60.1
+pkgver=7.2.0
 pkgrel=1
 license=('MIT')
-makedepends=(go)
+makedepends=(go sed)
 source=("${pkgname}-${pkgver}.tar.gz::${_url}/archive/v${pkgver}.tar.gz")
-b2sums=('8858cb29c12fbea787b1df82e887ca20b9150cdada6c0ea44af46f7c46f430fc2aa1360d9568a4035ba81bb5ac1d1e0d50e1df4cbb04b252e69c491006823171')
+b2sums=('cb40e2be2ab335289d2785382fedb3f57cd9b1f7d67311d247e692e22a135f51cf460b534196981e9e87f31ab44500f92d5e938701f2a45971a0f20178f66dd5')
 provides=($pkgname)
 conflicts=($pkgname)
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  mkdir -p build
+  sed -i 's|/usr/local/bin/oauth2-proxy|/usr/bin/oauth2-proxy|' "contrib/$pkgname.service.example"
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  go test ./...
+}
 
 build() {
   cd "${pkgname}-${pkgver}"
@@ -128,19 +141,18 @@ build() {
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
 
-  go build -o benthos cmd/benthos/main.go
-}
-
-check() {
-  cd "${pkgname}-${pkgver}"
-  go test ./...
+  go build -o build/ .
 }
 
 package() {
   cd "${pkgname}-${pkgver}"
-  install -Dm755 $pkgname "$pkgdir"/usr/bin/$pkgname
+
+  install -Dm755 "build/$pkgname" "$pkgdir/usr/bin/$pkgname"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "contrib/$pkgname.cfg.example" "$pkgdir/etc/oauth2-proxy.cfg"
+  install -Dm644 "contrib/$pkgname.service.example" "$pkgdir/usr/lib/systemd/system/oauth2-proxy.service"
 }
+
 ```
 
 ### Validar el PKGBUILD
