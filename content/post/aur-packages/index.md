@@ -2,10 +2,11 @@
 title: Manteniendo paquetes del AUR de Arch Linux
 description: Cómo mantengo paquetes del AUR y qué herramientas uso
 date: 2021-12-14
-slug: aur-packages
+slug: manteniendo-paquetes-del-aur-de-arch-linux
 image: magda-ehlers-selective-focus-photography-of-a-gray-penguin.jpg
 categories:
     - linux
+    - emacs
 tags:
     - aur
     - arch
