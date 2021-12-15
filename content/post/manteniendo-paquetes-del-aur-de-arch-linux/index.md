@@ -191,13 +191,13 @@ Los [paquetes que mantengo](https://aur.archlinux.org/packages/?O=0&SeB=M&K=deni
 
 ```
 .
-├── benthos
+├── oaut2-proxy
 │  ├──  .SRCINFO
 │  └──  PKGBUILD
-├── benthos-bin
+├── oaut2-proxy-bin
 │  ├──  .SRCINFO
 │  └──  PKGBUILD
-└── benthos-git
+└── oaut2-proxy-git
    ├──  .SRCINFO
    └──  PKGBUILD
 ```
