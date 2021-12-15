@@ -21,7 +21,7 @@ I contribute to the Arch Linux security team, lead the Arch Linux Mexico communi
 
 PGP fingerprint: `3DFF 9745 BCDE 5F4F F3AA BE0E 13DD 4991 DD98 B648`
 
-```
+```bash
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mDMEYL2DaBYJKwYBBAHaRw8BAQdAFAVzP96ycaCIczn0E3PjHgWhzLXTBa8rKIy5
