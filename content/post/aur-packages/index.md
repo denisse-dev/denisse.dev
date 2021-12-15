@@ -110,12 +110,12 @@ arch=(aarch64 armv5h armv6h armv7h x86_64)
 url='https://benthos.dev'
 _url='https://github.com/Jeffail/benthos'
 _branch='master'
-pkgver=3.53.0
+pkgver=3.60.1
 pkgrel=1
 license=('MIT')
 makedepends=(go)
 source=("${pkgname}-${pkgver}.tar.gz::${_url}/archive/v${pkgver}.tar.gz")
-b2sums=('bcf348b474f153e76ff8bd4b3811828438fe95c1dc77622e838cf66a5133a2537a1a409a93d0d0658d9e1997f3e89b0423ffc167a8b0929297d7933a1f47fb20')
+b2sums=('8858cb29c12fbea787b1df82e887ca20b9150cdada6c0ea44af46f7c46f430fc2aa1360d9568a4035ba81bb5ac1d1e0d50e1df4cbb04b252e69c491006823171')
 provides=($pkgname)
 conflicts=($pkgname)
 
@@ -233,4 +233,44 @@ El último paso es usar `aurpublish` para publicar el paquete:
 $ aurpublish PACKAGE
 ```
 
-Y con eso tendremos nuestro paquete publicado en el AUR. 😊
+De esta forma nuestro paquete estará publicado en el AUR. 😊
+
+## Makefile para publicar paquetes
+
+Para facilitar el publicar paquetes uso un Makefile que contiene las instrucciones descritas en la sección anterior y se puede ejecutar con `make update-pkg pkg=PACKAGE`:
+
+```makefile
+.PHONY: help check-pkg update-checksums build-pkg install-pkg update-srcinfo update-pkg publish
+.DEFAULT_GOAL := help
+
+help:
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+check-pkg: ## check PKGBUILDs for common packaging mistakes.
+	namcap $(pkg)/PKGBUILD
+	echo "Done checking the package"
+
+update-checksums: ## update PKGBUILD checksums
+	updpkgsums $(pkg)/PKGBUILD
+	echo "Done updating checksums"
+
+build-pkg: ## build the PKGBUILD
+	cd $(pkg) && \
+	makepkg --clean --syncdeps -f && \
+	echo "Done building the PKGBUILD"
+
+install-pkg: ## install the package after building it
+	cd $(pkg) && \
+	makepkg --install
+	echo "Done installing the package"
+
+update-srcinfo: ## print SRCINFO into a file
+	cd $(pkg) && \
+	makepkg --printsrcinfo > .SRCINFO && \
+	echo "Done updating the .SRCINFO"
+
+update-pkg: check-pkg update-checksums build-pkg install-pkg srcinfo-pkg ## update and upload the package to the AUR
+
+publish: ## publish the PKGBUILD to the AUR
+	aurpublish $(pkg)
+```
