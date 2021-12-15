@@ -104,7 +104,7 @@ Y debe hacerlo siguiendo la [_Guía para paquetes de Arch_](https://wiki.archlin
 En el [PKGBUILD](https://github.com/da-edra/pkgbuilds/blob/trunk/benthos/PKGBUILD) que escribí para `benthos` seguí la _Guía para paquetes de Arch_ y la [_Guía para paquetes de Go_](https://wiki.archlinux.org/title/Go_package_guidelines) para obtener ventajas en seguridad como [PIE](https://access.redhat.com/blogs/766093/posts/1975793) y mejorar la [reproducibilidad del paquete](https://wiki.archlinux.org/title/Reproducible_Builds):
 
 ```shell
-# Maintainer: Andrea Denisse Gómez-Martínez <aur at denisse dot dev>
+# Maintainer: Andrea Denisse Gómez-Martínez <denisse at archlinux dot org>
 
 pkgname=oauth2-proxy
 pkgdesc='A reverse proxy that provides authentication with Google, Github or other providers.'
