@@ -8,8 +8,9 @@ categories:
     - linux
     - emacs
 tags:
-    - aur
     - arch
+    - asciinema
+    - aur
     - emacs
 ---
 
@@ -338,6 +339,8 @@ Publicando un **PKGBUILD**:
 ```bash
 make publish pkg=PACKAGE
 ```
+
+[![asciinema: Writing M+ OTF font's PKGBUILD](https://asciinema.org/a/459688.svg)](https://asciinema.org/a/459688)
 
 [^conflictos-mismo-paquete-aur]: [Conflictos en paquetes del AUR](https://wiki.archlinux.org/title/PKGBUILD#conflicts)
 [^trusted-user-mantener-paquetes]: [Requisitos mínimos para ser Trusted User](https://wiki.archlinux.org/title/Trusted_Users_(Espa%C3%B1ol)#%C2%BFC%C3%B3mo_me_convierto_en_un_TU?)
