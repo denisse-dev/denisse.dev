@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="Cómo mantengo paquetes para el AUR, el flujo que sigo al mantener paquetes y las herramientas que uso">
+<title>Manteniendo paquetes del AUR de Arch Linux</title>
+
+<link rel='canonical' href='http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/'>
+
+<link rel="stylesheet" href="/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css"><meta property='og:title' content="Manteniendo paquetes del AUR de Arch Linux">
+<meta property='og:description' content="Cómo mantengo paquetes para el AUR, el flujo que sigo al mantener paquetes y las herramientas que uso">
+<meta property='og:url' content='http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/'>
+<meta property='og:site_name' content='andrea denisse'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='arch' /><meta property='article:tag' content='asciinema' /><meta property='article:tag' content='aur' /><meta property='article:tag' content='emacs' /><meta property='article:published_time' content='2021-12-14T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2021-12-14T00:00:00&#43;00:00'/><meta property='og:image' content='http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin.jpg' />
+<meta name="twitter:title" content="Manteniendo paquetes del AUR de Arch Linux">
+<meta name="twitter:description" content="Cómo mantengo paquetes para el AUR, el flujo que sigo al mantener paquetes y las herramientas que uso"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin.jpg' />
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_72c774cde428b03b.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">andrea denisse</a></h1>
+            <h2 class="site-description">Open Source Developer</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/denisse-dev/'
+                        target="_blank"
+                        title="github"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://gitlab.com/denisse.dev'
+                        target="_blank"
+                        title="gitlab"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-gitlab"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 14l-9 7l-9 -7l3 -11l3 7h6l3 -7z" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/page/about/' >
+                
+                
+                
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-user"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
+                
+                <span>About me</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12.707 2.293l9 9c.63 .63 .184 1.707 -.707 1.707h-1v6a3 3 0 0 1 -3 3h-1v-7a3 3 0 0 0 -2.824 -2.995l-.176 -.005h-2a3 3 0 0 0 -3 3v7h-1a3 3 0 0 1 -3 -3v-6h-1c-.89 0 -1.337 -1.077 -.707 -1.707l9 -9a1 1 0 0 1 1.414 0m.293 11.707a1 1 0 0 1 1 1v7h-4v-7a1 1 0 0 1 .883 -.993l.117 -.007z" /></svg>
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives' >
+                
+                
+                
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-archive"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M2 3m0 2a2 2 0 0 1 2 -2h16a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-16a2 2 0 0 1 -2 -2z" /><path d="M19 9c.513 0 .936 .463 .993 1.06l.007 .14v7.2c0 1.917 -1.249 3.484 -2.824 3.594l-.176 .006h-10c-1.598 0 -2.904 -1.499 -2.995 -3.388l-.005 -.212v-7.2c0 -.663 .448 -1.2 1 -1.2h14zm-5 2h-4l-.117 .007a1 1 0 0 0 0 1.986l.117 .007h4l.117 -.007a1 1 0 0 0 0 -1.986l-.117 -.007z" /></svg>
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search' >
+                
+                
+                
+                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-zoom-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3.072a8 8 0 0 1 2.32 11.834l5.387 5.387a1 1 0 0 1 -1.414 1.414l-5.388 -5.387a8 8 0 0 1 -12.905 -6.32l.005 -.285a8 8 0 0 1 11.995 -6.643m-5.293 4.22a1 1 0 0 0 -1.414 0l-2 2a1 1 0 0 0 0 1.415l2 2a1 1 0 0 0 1.414 0l.083 -.094a1 1 0 0 0 -.083 -1.32l-1.292 -1.293l1.292 -1.293a1 1 0 0 0 0 -1.414m4 0a1 1 0 0 0 -1.414 0l-.083 .095a1 1 0 0 0 .083 1.32l1.292 1.292l-1.292 1.293a1 1 0 0 0 1.414 1.414l2 -2a1 1 0 0 0 0 -1.414z" /></svg>
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ul>
+    <li><a href="#el-aur">El AUR</a></li>
+    <li><a href="#mi-entorno">Mi entorno</a></li>
+    <li><a href="#tipos-de-paquetes">Tipos de paquetes</a></li>
+    <li><a href="#contribuyendo-al-aur">Contribuyendo al AUR</a>
+      <ul>
+        <li><a href="#escoger-lo-que-voy-a-empaquetar">Escoger lo que voy a empaquetar</a></li>
+        <li><a href="#definir-lo-que-un-pkgbuild-debe-instalar">Definir lo que un PKGBUILD debe instalar</a></li>
+        <li><a href="#validar-el-pkgbuild">Validar el PKGBUILD</a></li>
+        <li><a href="#actualizar-checksums">Actualizar checksums</a></li>
+        <li><a href="#construir-el-paquete">Construir el paquete</a></li>
+        <li><a href="#instalar-el-paquete">Instalar el paquete</a></li>
+        <li><a href="#generar-srcinfo">Generar .SRCINFO</a></li>
+        <li><a href="#publicar-el-paquete">Publicar el paquete</a></li>
+      </ul>
+    </li>
+    <li><a href="#makefile-para-publicar-paquetes">Makefile para publicar paquetes</a></li>
+  </ul>
+</nav>
+        </div>
+    </section>
+
+            
+        
+            
+                <section class="widget tagCloud">
+    <div class="widget-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11 3L20 12a1.5 1.5 0 0 1 0 2L14 20a1.5 1.5 0 0 1 -2 0L3 11v-4a4 4 0 0 1 4 -4h4" />
+  <circle cx="9" cy="9" r="2" />
+</svg>
+
+
+
+    </div>
+    <h2 class="widget-title section-title">Tags</h2>
+
+    <div class="tagCloud-tags">
+        
+            <a href="/tags/arch/" class="font_size_1">
+                Arch
+            </a>
+        
+            <a href="/tags/asciinema/" class="font_size_1">
+                Asciinema
+            </a>
+        
+            <a href="/tags/aur/" class="font_size_1">
+                Aur
+            </a>
+        
+            <a href="/tags/emacs/" class="font_size_1">
+                Emacs
+            </a>
+        
+    </div>
+</section>
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/post/manteniendo-paquetes-del-aur-de-arch-linux/">
+                <img src="/post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin_hu_d1a450e8b9d007f4.jpg"
+                        srcset="/post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin_hu_d1a450e8b9d007f4.jpg 800w, /post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin_hu_610dd4d5b4d9cfad.jpg 1600w"
+                        width="800" 
+                        height="511" 
+                        loading="lazy"
+                        alt="Featured image of post Manteniendo paquetes del AUR de Arch Linux" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/linux/" >
+                Linux
+            </a>
+        
+            <a href="/categories/emacs/" >
+                Emacs
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/manteniendo-paquetes-del-aur-de-arch-linux/">Manteniendo paquetes del AUR de Arch Linux</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            Cómo mantengo paquetes para el AUR, el flujo que sigo al mantener paquetes y las herramientas que uso
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Dec 14, 2021</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    6 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="el-aur"><a href="#el-aur" class="header-anchor"></a>El AUR
+</h2><p>Una de las cosas que más me gustan de usar <a class="link" href="https://archlinux.org/"  target="_blank" rel="noopener"
+    >Arch Linux</a> es el <a class="link" href="https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >AUR</a>, un repositorio comunitario con miles de <a class="link" href="https://wiki.archlinux.org/title/PKGBUILD_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >PKGBUILD</a> que permiten instalar y actualizar programas fácilmente y que favorece la colaboración comunitaria.</p>
+<h2 id="mi-entorno"><a href="#mi-entorno" class="header-anchor"></a>Mi entorno
+</h2><p>Al editar un <strong>PKGBUILD</strong> uso el modo <a class="link" href="https://melpa.org/#/pkgbuild-mode"  target="_blank" rel="noopener"
+    >pkgbuild-mode</a> en <a class="link" href="https://wiki.archlinux.org/title/Emacs_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >Emacs</a> para tener resaltado de sintaxis, validación de sintaxis y autocompletado.</p>
+<p>Con el siguiente snippet de <a class="link" href="https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html"  target="_blank" rel="noopener"
+    >Emacs Lisp</a> habilito la detección de archivos <strong>PKGBUILD</strong> para automáticamente iniciar <strong>pkgbuild-mode</strong> en Emacs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(<span style="color:#a6e22e">autoload</span> <span style="color:#e6db74">&#39;pkgbuild-mode</span> <span style="color:#e6db74">&#34;pkgbuild-mode.el&#34;</span> <span style="color:#e6db74">&#34;PKGBUILD mode.&#34;</span> <span style="color:#66d9ef">t</span>)
+</span></span><span style="display:flex;"><span> (setq auto-mode-alist (<span style="color:#a6e22e">append</span> <span style="color:#f92672">&#39;</span>((<span style="color:#e6db74">&#34;/PKGBUILD$&#34;</span> <span style="color:#f92672">.</span> pkgbuild-mode))
+</span></span><span style="display:flex;"><span>			  auto-mode-alist))
+</span></span></code></pre></div><p>Recomiendo instalar y configurar los siguientes paquetes:</p>
+<ol start="0">
+<li><a class="link" href="https://aur.archlinux.org/packages/paru/"  target="_blank" rel="noopener"
+    >paru</a>: <a class="link" href="https://wiki.archlinux.org/title/AUR_helpers_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >Ayudante de AUR</a></li>
+<li><a class="link" href="https://archlinux.org/packages/extra/any/namcap/"  target="_blank" rel="noopener"
+    >namcap</a>: Para detectar errores en archivos PKGBUILD.</li>
+<li><a class="link" href="https://archlinux.org/packages/community/any/aurpublish/"  target="_blank" rel="noopener"
+    >aurpublish</a>: Framework para interactuar con el AUR.</li>
+</ol>
+<h2 id="tipos-de-paquetes"><a href="#tipos-de-paquetes" class="header-anchor"></a>Tipos de paquetes
+</h2><p>En el <strong>AUR</strong> podemos encontrar 3 tipos de paquetes que podemos identificar como <strong>PAQUETE</strong>, <strong>PAQUETE-bin</strong> y <strong>PAQUETE-git</strong>. Usaré el paquete <a class="link" href="https://oauth2-proxy.github.io/oauth2-proxy/"  target="_blank" rel="noopener"
+    >oauth2-proxy</a> como ejemplo:</p>
+<ol start="0">
+<li>
+<p><a class="link" href="https://aur.archlinux.org/packages/oauth2-proxy/"  target="_blank" rel="noopener"
+    >oauth2-proxy</a>:</p>
+<p>El paquete <strong>oauth2-proxy</strong> descarga y compila el código fuente de un release de <strong>oauth2-proxy</strong> que se identifica con un tag de <a class="link" href="https://git-scm.com/"  target="_blank" rel="noopener"
+    >Git</a> en upstream.</p>
+<p>Ventajas:</p>
+<ul>
+<li>Provee una versión considerada estable del paquete</li>
+<li>El binario se puede compilar para múltiples arquitecturas</li>
+<li>El binario se puede optimizar para tu equipo</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>Compilarlo puede ser tardado en ciertos equipos</li>
+</ul>
+</li>
+<li>
+<p><a class="link" href="https://aur.archlinux.org/packages/oauth2-proxy-bin/"  target="_blank" rel="noopener"
+    >oauth2-proxy-bin</a>:</p>
+<p>El paquete <strong>oauth2-proxy-bin</strong> descarga un binario para las arquitecturas soportadas un release de <strong>oauth2-proxy-bin</strong> en upstream.</p>
+<p>Ventajas:</p>
+<ul>
+<li>Provee una versión considerada estable del paquete</li>
+<li>No requiere compilar un binario</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>Puede no haber binarios en upstream para ciertas arquitecturas</li>
+<li>Puede que el binario no esté optimizado para tu equipo</li>
+<li>Puede que el binario no esté hardenizado</li>
+</ul>
+</li>
+<li>
+<p><a class="link" href="https://aur.archlinux.org/packages/oauth2-proxy-git/"  target="_blank" rel="noopener"
+    >oauth2-proxy-git</a>:</p>
+<p>El paquete <strong>oauth2-proxy-bin</strong> descarga y compila el código fuente del último commit de <strong>oauth2-proxy-bin</strong> en upstream.</p>
+<p>Ventajas:</p>
+<ul>
+<li>Provee los cambios más recientes publicados en upstream</li>
+<li>El <strong>PKGBUILD</strong> es fácil de mantener pues no se hace validación por checksums</li>
+<li>El binario se puede compilar para múltiples arquitecturas</li>
+<li>El binario se puede optimizar para tu equipo</li>
+</ul>
+<p>Desventajas:</p>
+<ul>
+<li>Compilarlo puede ser tardado en ciertos equipos</li>
+<li>Puede tener cambios considerados inestables</li>
+</ul>
+</li>
+</ol>
+<p>Aunque los 3 paquetes tienen un nombre diferente en el <strong>AUR</strong> el paquete que instalan debe llamarse <strong>oauth2-proxy</strong> y tener conflicto con <strong>oauth2-proxy</strong> para evitar que <a class="link" href="https://wiki.archlinux.org/title/Pacman_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >pacman</a> instale diferentes versiones de un mismo paquete al mismo tiempo<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pkgname<span style="color:#f92672">=</span>oauth2-proxy
+</span></span><span style="display:flex;"><span>provides<span style="color:#f92672">=(</span>$pkgname<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>conflicts<span style="color:#f92672">=(</span>$pkgname<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="contribuyendo-al-aur"><a href="#contribuyendo-al-aur" class="header-anchor"></a>Contribuyendo al AUR
+</h2><p>Una de las primeras maneras de contribuir a Arch Linux y el primer paso para ser <a class="link" href="https://wiki.archlinux.org/title/Trusted_Users_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >Trusted User</a> es mantener paquetes para el AUR<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<p>Sigo los siguientes pasos al empaquetar software para el AUR.</p>
+<ol start="0">
+<li><a class="link" href="#escoger-lo-que-voy-a-empaquetar" >Escoger lo que voy a empaquetar</a></li>
+<li><a class="link" href="#definir-lo-que-un-pkgbuild-debe-instalar" >Definir lo que un PKGBUILD debe instalar</a></li>
+<li><a class="link" href="#validar-el-pkgbuild" >Validar el PKGBUILD</a></li>
+<li><a class="link" href="#actualizar-checksums" >Actualizar checksums</a></li>
+<li><a class="link" href="#construir-el-paquete" >Construir el paquete</a></li>
+<li><a class="link" href="#instalar-el-paquete" >Instalar el paquete</a></li>
+<li><a class="link" href="#generar-srcinfo" >Generar .SRCINFO</a></li>
+<li><a class="link" href="#publicar-el-paquete" >Publicar el paquete</a></li>
+</ol>
+<h3 id="escoger-lo-que-voy-a-empaquetar"><a href="#escoger-lo-que-voy-a-empaquetar" class="header-anchor"></a>Escoger lo que voy a empaquetar
+</h3><p>El primer paso es verificar que lo que queremos empaquetar no se encuentre disponible ni en los <a class="link" href="https://wiki.archlinux.org/title/Official_repositories_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >Repositorios Oficiales</a> ni en el <strong>AUR</strong> para evitar tener paquetes duplicados.<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<p>Para crear el repositorio de un paquete nuevo con <a class="link" href="https://man.archlinux.org/man/git.1"  target="_blank" rel="noopener"
+    >git(1)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ git clone ssh://aur@aur.archlinux.org/&lt;PAQUETE&gt;.git
+</span></span></code></pre></div><p>Para clonar el repositorio de un <a class="link" href="https://aur.archlinux.org/packages/?SB=n&amp;do_Orphans=Orphans"  target="_blank" rel="noopener"
+    >paquete huérfano</a> con <a class="link" href="https://man.archlinux.org/man/aurpublish.1"  target="_blank" rel="noopener"
+    >aurpublish(1)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ aurpublish -p &lt;PAQUETE&gt;
+</span></span></code></pre></div><h3 id="definir-lo-que-un-pkgbuild-debe-instalar"><a href="#definir-lo-que-un-pkgbuild-debe-instalar" class="header-anchor"></a>Definir lo que un PKGBUILD debe instalar
+</h3><p>Un <strong>PKGBUILD</strong> debe instalar lo siguiente:</p>
+<ol start="0">
+<li>Instalar el paquete.</li>
+<li>Instalar la licencia el paquete usa una licencia que no se encuentra en el archivo <a class="link" href="https://archlinux.org/packages/core/any/licenses/"  target="_blank" rel="noopener"
+    >licenses</a> (ej. <a class="link" href="https://en.wikipedia.org/wiki/MIT_License"  target="_blank" rel="noopener"
+    >MIT</a>).<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></li>
+<li>Instalar la configuración por defecto si existe en upstream.</li>
+<li>Instalar los <a class="link" href="https://wiki.archlinux.org/title/Daemons_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >demonios</a> si existen en upstream.</li>
+</ol>
+<p>Y debe hacerlo siguiendo la <a class="link" href="https://wiki.archlinux.org/title/Arch_package_guidelines_%28Espa%C3%B1ol%29"  target="_blank" rel="noopener"
+    >Guía para paquetes de Arch</a>, la guía para paquetes específica del lenguaje que estás empaquetando y las <a class="link" href="https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29#Reglas_de_env%C3%ADo"  target="_blank" rel="noopener"
+    >Reglas de envío del AUR</a>.</p>
+<p>El <a class="link" href="https://github.com/da-edra/pkgbuilds/blob/trunk/oauth2-proxy/PKGBUILD"  target="_blank" rel="noopener"
+    >PKGBUILD</a> que escribí para <strong>oauth2-proxy</strong> seguí la Guía para paquetes de Arch y la <a class="link" href="https://wiki.archlinux.org/title/Go_package_guidelines"  target="_blank" rel="noopener"
+    >Guía para paquetes de Go</a> para obtener un binario hardenizado usando compilación <a class="link" href="https://en.wikipedia.org/wiki/Position-independent_code"  target="_blank" rel="noopener"
+    >PIE</a> y mejorar la <a class="link" href="https://wiki.archlinux.org/title/Reproducible_Builds"  target="_blank" rel="noopener"
+    >reproducibilidad del paquete</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># Maintainer: Andrea Denisse Gómez-Martínez &lt;denisse at archlinux dot org&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pkgname<span style="color:#f92672">=</span>oauth2-proxy
+</span></span><span style="display:flex;"><span>pkgdesc<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;A reverse proxy that provides authentication with Google, Github or other providers.&#39;</span>
+</span></span><span style="display:flex;"><span>arch<span style="color:#f92672">=(</span>any<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>url<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;https://oauth2-proxy.github.io/oauth2-proxy/&#39;</span>
+</span></span><span style="display:flex;"><span>_url<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;https://github.com/oauth2-proxy/oauth2-proxy&#39;</span>
+</span></span><span style="display:flex;"><span>_branch<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;master&#39;</span>
+</span></span><span style="display:flex;"><span>pkgver<span style="color:#f92672">=</span>7.2.0
+</span></span><span style="display:flex;"><span>pkgrel<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>license<span style="color:#f92672">=(</span><span style="color:#e6db74">&#39;MIT&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>makedepends<span style="color:#f92672">=(</span>go sed<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>source<span style="color:#f92672">=(</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pkgname<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">.tar.gz::</span><span style="color:#e6db74">${</span>_url<span style="color:#e6db74">}</span><span style="color:#e6db74">/archive/v</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">.tar.gz&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>b2sums<span style="color:#f92672">=(</span><span style="color:#e6db74">&#39;cb40e2be2ab335289d2785382fedb3f57cd9b1f7d67311d247e692e22a135f51cf460b534196981e9e87f31ab44500f92d5e938701f2a45971a0f20178f66dd5&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>provides<span style="color:#f92672">=(</span>$pkgname<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>conflicts<span style="color:#f92672">=(</span>$pkgname<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prepare<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pkgname<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  mkdir -p build
+</span></span><span style="display:flex;"><span>  sed -i <span style="color:#e6db74">&#39;s|/usr/local/bin/oauth2-proxy|/usr/bin/oauth2-proxy|&#39;</span> <span style="color:#e6db74">&#34;contrib/</span>$pkgname<span style="color:#e6db74">.service.example&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>check<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pkgname<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  go test ./...
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>build<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pkgname<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  export CGO_LDFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>LDFLAGS<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  export CGO_CFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CFLAGS<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  export CGO_CPPFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CPPFLAGS<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  export CGO_CXXFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>CXXFLAGS<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  export GOFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  go build -o build/ .
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>package<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  cd <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>pkgname<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>pkgver<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  install -Dm755 <span style="color:#e6db74">&#34;build/</span>$pkgname<span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#34;</span>$pkgdir<span style="color:#e6db74">/usr/bin/</span>$pkgname<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>  install -Dm644 LICENSE <span style="color:#e6db74">&#34;</span>$pkgdir<span style="color:#e6db74">/usr/share/licenses/</span>$pkgname<span style="color:#e6db74">/LICENSE&#34;</span>
+</span></span><span style="display:flex;"><span>  install -Dm644 <span style="color:#e6db74">&#34;contrib/</span>$pkgname<span style="color:#e6db74">.cfg.example&#34;</span> <span style="color:#e6db74">&#34;</span>$pkgdir<span style="color:#e6db74">/etc/oauth2-proxy.cfg&#34;</span>
+</span></span><span style="display:flex;"><span>  install -Dm644 <span style="color:#e6db74">&#34;contrib/</span>$pkgname<span style="color:#e6db74">.service.example&#34;</span> <span style="color:#e6db74">&#34;</span>$pkgdir<span style="color:#e6db74">/usr/lib/systemd/system/oauth2-proxy.service&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="validar-el-pkgbuild"><a href="#validar-el-pkgbuild" class="header-anchor"></a>Validar el PKGBUILD
+</h3><p>Para buscar errores comunes en el PKGBUILD uso <a class="link" href="https://man.archlinux.org/man/namcap.1"  target="_blank" rel="noopener"
+    >namcap(1)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ namcap PKGBUILD
+</span></span></code></pre></div><p>Algunos paquetes incluyen una función <strong>check()</strong> en la que se pueden agregar validaciones adicionales como ejecutar los tests que el paquete contiene upstream.<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></p>
+<p>La configuración por defecto del archivo <strong>makepkg.conf</strong> ejecuta la función <strong>check()</strong> si ésta se encuentra en el <strong>PKGBUILD</strong>.<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>. <strong>check()</strong> también se puede ejecutar manualmente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ makepkg --check PKGBUILD
+</span></span></code></pre></div><h3 id="actualizar-checksums"><a href="#actualizar-checksums" class="header-anchor"></a>Actualizar checksums
+</h3><p>El <strong>PKGBUILD</strong> de paquetes de tipo <strong>PAQUETE</strong> y <strong>PAQUETE-bin</strong> debe tener <strong>checksums</strong> que permiten verificar la integridad del paquete bajado de upstream.</p>
+<p>Si un paquete incluye <strong>checksums</strong> en upstream es importante usar esos <strong>checksums</strong> en el <strong>PKGBUILD</strong> para garantizar la integridad del paquete desde su publicación en upstream hasta su instalación en local:<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b2sums<span style="color:#f92672">=(</span><span style="color:#e6db74">&#39;79586b8592a246ddb9a75752329e94bcc8d8924dcbe2eb2c7bdd1a11981e4ee39abcea86fb7b76e8c54dc8dd0f20d8b5d4b5f63025380f1ed9efbcca8c9b0bb7&#39;</span><span style="color:#f92672">)</span>
+</span></span></code></pre></div><p>Si un paquete no cuenta con hashes en upstream estos se pueden generar con <a class="link" href="https://man.archlinux.org/man/updpkgsums.8.en"  target="_blank" rel="noopener"
+    >updpkgsums(8)</a> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>updpkgsums PKGBUILD
+</span></span></code></pre></div><p>En el caso de <strong>PACKAGE-git</strong> se debe saltar la validación de checksums:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>b2sums<span style="color:#f92672">=(</span>SKIP<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h3 id="construir-el-paquete"><a href="#construir-el-paquete" class="header-anchor"></a>Construir el paquete
+</h3><p>Los <a class="link" href="https://aur.archlinux.org/packages/?O=0&amp;SeB=M&amp;K=denisse&amp;outdated=&amp;SB=n&amp;SO=a&amp;PP=50&amp;do_Search=Go"  target="_blank" rel="noopener"
+    >paquetes que mantengo</a> están organizados en carpetas que llevan el nombre del paquete. Cada carpeta contiene un archivo <strong>PKGBUILD</strong> y un archivo <a class="link" href="https://wiki.archlinux.org/title/.SRCINFO"  target="_blank" rel="noopener"
+    >.SRCINFO</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── oaut2-proxy
+</span></span><span style="display:flex;"><span>│  ├── .SRCINFO
+</span></span><span style="display:flex;"><span>│  └── PKGBUILD
+</span></span><span style="display:flex;"><span>├── oaut2-proxy-bin
+</span></span><span style="display:flex;"><span>│  ├── .SRCINFO
+</span></span><span style="display:flex;"><span>│  └── PKGBUILD
+</span></span><span style="display:flex;"><span>└── oaut2-proxy-git
+</span></span><span style="display:flex;"><span>   ├── .SRCINFO
+</span></span><span style="display:flex;"><span>   └── PKGBUILD
+</span></span></code></pre></div><p>Construyo el paquete con <a class="link" href="https://man.archlinux.org/man/makepkg.8.en"  target="_blank" rel="noopener"
+    >makepkg(8)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ makepkg --clean --syncdeps --force
+</span></span></code></pre></div><p><strong>&ndash;clean</strong> limpia el directorio después de construir el paquete</p>
+<p><strong>&ndash;syncdeps</strong> instala dependencias faltantes</p>
+<p><strong>&ndash;force</strong> sobrescribe un paquete ya construido</p>
+<h3 id="instalar-el-paquete"><a href="#instalar-el-paquete" class="header-anchor"></a>Instalar el paquete
+</h3><p>Instalo el paquete con <a class="link" href="https://man.archlinux.org/man/makepkg.8.en"  target="_blank" rel="noopener"
+    >makepkg(8)</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ makepkg --install
+</span></span></code></pre></div><p>Realizo las siguientes validaciones:</p>
+<ol start="0">
+<li>El paquete funciona como se espera.</li>
+<li>Si se necesitan licencias éstas están instaladas.</li>
+<li>Si hay una configuración por defecto ésta está instalada y funciona.</li>
+<li>Si en upstream hay demonios estos están instalados y funcionan.</li>
+</ol>
+<h3 id="generar-srcinfo"><a href="#generar-srcinfo" class="header-anchor"></a>Generar .SRCINFO
+</h3><p>Genero el archivo <strong>.SRCINFO</strong> con <a class="link" href="https://man.archlinux.org/man/makepkg.8.en"  target="_blank" rel="noopener"
+    >makepkg(8)</a>. <strong>.SRCINFO</strong> contiene metadatos organizados en pares de <code>llave = valor</code> que son más fáciles y seguros de parsear que un PKGBUILD.<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ makepkg --printsrcinfo &gt; .SRCINFO
+</span></span></code></pre></div><h3 id="publicar-el-paquete"><a href="#publicar-el-paquete" class="header-anchor"></a>Publicar el paquete
+</h3><p>El último paso es usar <a class="link" href="https://man.archlinux.org/man/aurpublish.1"  target="_blank" rel="noopener"
+    >aurpublish(1)</a> para publicar el paquete:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ aurpublish PACKAGE
+</span></span></code></pre></div><p>De esta forma nuestro paquete estará publicado en el AUR. 😊</p>
+<h2 id="makefile-para-publicar-paquetes"><a href="#makefile-para-publicar-paquetes" class="header-anchor"></a>Makefile para publicar paquetes
+</h2><p>Para facilitar el publicar paquetes uso un <a class="link" href="https://github.com/da-edra/pkgbuilds/blob/trunk/Makefile"  target="_blank" rel="noopener"
+    >Makefile</a> que contiene las instrucciones descritas en la sección anterior:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span><span style="color:#a6e22e">.PHONY</span><span style="color:#f92672">:</span> help check-pkg update-checksums build-pkg install-pkg update-srcinfo update-pkg publish
+</span></span><span style="display:flex;"><span>.DEFAULT_GOAL <span style="color:#f92672">:=</span> help
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">help</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	@grep -E <span style="color:#e6db74">&#39;^[a-zA-Z_-]+:.*?## .*$$&#39;</span> <span style="color:#66d9ef">$(</span>MAKEFILE_LIST<span style="color:#66d9ef">)</span> | awk <span style="color:#e6db74">&#39;BEGIN {FS = &#34;:.*?## &#34;}; {printf &#34;\033[36m%-30s\033[0m %s\n&#34;, $$1, $$2}&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">check-pkg</span><span style="color:#f92672">:</span> <span style="color:#75715e">## check PKGBUILDs for common packaging mistakes.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	namcap <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span>/PKGBUILD
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;Done checking the package&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">update-checksums</span><span style="color:#f92672">:</span> <span style="color:#75715e">## update PKGBUILD checksums
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	updpkgsums <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span>/PKGBUILD
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;Done updating checksums&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">build-pkg</span><span style="color:#f92672">:</span> <span style="color:#75715e">## build the PKGBUILD
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	cd <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	makepkg --clean --syncdeps -f <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	echo <span style="color:#e6db74">&#34;Done building the PKGBUILD&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">install-pkg</span><span style="color:#f92672">:</span> <span style="color:#75715e">## install the package after building it
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	cd <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	makepkg --install
+</span></span><span style="display:flex;"><span>	echo <span style="color:#e6db74">&#34;Done installing the package&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">update-srcinfo</span><span style="color:#f92672">:</span> <span style="color:#75715e">## print SRCINFO into a file
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	cd <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	makepkg --printsrcinfo &gt; .SRCINFO <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>	echo <span style="color:#e6db74">&#34;Done updating the .SRCINFO&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">update-pkg</span><span style="color:#f92672">:</span> check-pkg update-checksums build-pkg install-pkg update-srcinfo <span style="color:#75715e">## update and upload the package to the AUR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">publish</span><span style="color:#f92672">:</span> <span style="color:#75715e">## publish the PKGBUILD to the AUR
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	aurpublish <span style="color:#66d9ef">$(</span>pkg<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>Actualizando un <strong>PKGBUILD</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make update-pkg pkg<span style="color:#f92672">=</span>PACKAGE
+</span></span></code></pre></div><p>Publicando un <strong>PKGBUILD</strong>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make publish pkg<span style="color:#f92672">=</span>PACKAGE
+</span></span></code></pre></div><p><a class="link" href="https://asciinema.org/a/459688"  target="_blank" rel="noopener"
+    ><img src="https://asciinema.org/a/459688.svg"
+	
+	
+	
+	loading="lazy"
+	
+		alt="asciinema: Writing M&#43; OTF font’s PKGBUILD"
+	
+	
+></a></p>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a class="link" href="https://wiki.archlinux.org/title/PKGBUILD#conflicts"  target="_blank" rel="noopener"
+    >Conflictos en paquetes del AUR</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a class="link" href="https://wiki.archlinux.org/title/Trusted_Users_%28Espa%C3%B1ol%29#%C2%BFC%C3%B3mo_me_convierto_en_un_TU?"  target="_blank" rel="noopener"
+    >Requisitos mínimos para ser Trusted User</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a class="link" href="https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29#Reglas_de_env%C3%ADo"  target="_blank" rel="noopener"
+    >Reglas de envío para el AUR</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p><a class="link" href="https://wiki.archlinux.org/title/PKGBUILD#license"  target="_blank" rel="noopener"
+    >Instalar la LICENCIA del paquete</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p><a class="link" href="https://wiki.archlinux.org/title/Creating_packages#check%28%29"  target="_blank" rel="noopener"
+    >Función check() de un PKGBUILD</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p><a class="link" href="https://man.archlinux.org/man/makepkg.conf.5.en"  target="_blank" rel="noopener"
+    >Configuración por defecto de makepkg.conf</a>&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p><a class="link" href="https://wiki.archlinux.org/title/PKGBUILD#Integrity"  target="_blank" rel="noopener"
+    >Validar la integridad del paquete con checksums</a>&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Diferentes problemas encontrados en al parsear PKGBUILD: <a class="link" href="https://bugs.archlinux.org/task/25210"  target="_blank" rel="noopener"
+    >FS#25210</a>, <a class="link" href="https://bugs.archlinux.org/task/15043"  target="_blank" rel="noopener"
+    >FS#15043</a>, y <a class="link" href="https://bugs.archlinux.org/task/16394"  target="_blank" rel="noopener"
+    >FS#16394</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/arch/">Arch</a>
+        
+            <a href="/tags/asciinema/">Asciinema</a>
+        
+            <a href="/tags/aur/">Aur</a>
+        
+            <a href="/tags/emacs/">Emacs</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2021 - 
+        
+        2025 andrea denisse
+    </section>
+    
+    <section class="powerby">
+        
+            Made with 💖 <br/>
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.79ed667c2ae7f17cf54f46d95d8838c31bd9da67bdc9ac483886c7daeec6b2fb.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

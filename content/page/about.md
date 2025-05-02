@@ -1,7 +1,8 @@
 ---
 title: About me
-description: I'm Andrea Denisse Gómez-Martínez
+description: Passionate open source developer, Emacs lover, and Arch Linux tinkerer — sharing knowledge one keystroke (or solder joint) at a time.
 date: '2021-12-13'
+image: img/banner.png
 aliases:
   - about-us
   - about-hugo
@@ -10,65 +11,25 @@ license: CC BY-NC-ND
 lastmod: '2021-12-13'
 menu:
     main:
-        weight: -90
+        weight: -1
         params:
             icon: user
 ---
 
-I have two amazing dogs I rescued from the streets, their names are Shiva and Cobol.
+Hi! I'm Andrea Denisse — a passionate open source software developer dedicated to knowledge sharing and digital preservation.
 
-I contribute to the Arch Linux security team, lead the Arch Linux Mexico community, maintain some AUR packages and upstream Linux packages.
+I work across a variety of technologies, with a strong focus on systems programming and infrastructure. I'm fluent in Rust, Go, and Python, though I enjoy exploring different languages and tools just as much as building things with them.
 
-PGP fingerprint: `3DFF 9745 BCDE 5F4F F3AA BE0E 13DD 4991 DD98 B648`
+By day, I work as a Site Reliability Engineer (SRE) at the Wikimedia Foundation, helping to keep Wikipedia and its sister projects fast, stable, and available to everyone, everywhere. Please note that all opinions expressed on this blog are my own and do not represent those of my employer.
 
-```bash
------BEGIN PGP PUBLIC KEY BLOCK-----
+I'm a longtime Arch Linux user and an avid Emacs enthusiast. Whether it's customizing my workflow, contributing to projects, or diving into new tools, I believe in the power of open ecosystems and community collaboration.
 
-mDMEYL2DaBYJKwYBBAHaRw8BAQdAFAVzP96ycaCIczn0E3PjHgWhzLXTBa8rKIy5
-UGFOU6K0MUFuZHJlYSBEZW5pc3NlIEfDs21lei1NYXJ0w61uZXogPGdwZ0BkZW5p
-c3NlLmRldj6IlgQTFggAPgIbAwUJBaOagAIeAQIXgBYhBD3/l0W83l9P86q+DhPd
-SZHdmLZIBQJgvYkLBQsJCAcDBRUKCQgLBRYCAwEAAAoJEBPdSZHdmLZIVGgA/jS0
-4RNHwrt9l+vm3RaAYQQ3VqTZ9s+ATyX68/czf8LuAQDHxQFcykiJLy2gM3ye2kX/
-O6bqeXDREe/3wm66V8eyDIiWBBMWCAA+AhsDBQkFo5qAAh4BAheAFiEEPf+XRbze
-X0/zqr4OE91Jkd2YtkgFAmDC4ngFCwkIBwMFFQoJCAsFFgIDAQAACgkQE91Jkd2Y
-tkjBcAEA1p+uICaT5SNVbEitvjlXWOcwED9mr4Bmuf467fE0v3oA/2aStHkIyo1R
-R835VzZujPVojp+i0PvSrfpiLKqVkPEKtDdBbmRyZWEgRGVuaXNzZSBHw7NtZXot
-TWFydMOtbmV6IDxkZW5pc3NlQGFyY2hsaW51eC5vcmc+iJYEExYIAD4FCQWjmoAF
-CwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQ9/5dFvN5fT/Oqvg4T3UmR3Zi2SAUC
-YMLgZwIbAQAKCRAT3UmR3Zi2SBc7AP4+vgH1PAjGptlNrpbJ6uLf9z9MjRFiTsir
-NzXRFpFgYQD/aY8HyZEXS3PcQCHZPOgjJttxfJ5wweIEyWcCsC+2RQ6IlgQTFggA
-PgUJBaOagAIeAQIXgAIbARYhBD3/l0W83l9P86q+DhPdSZHdmLZIBQJgwuJ4BQsJ
-CAcDBRUKCQgLBRYCAwEAAAoJEBPdSZHdmLZIr4oBAKvHi8L8QMFWtphDwjZLyU4i
-wdGW88vlyYT010BoSDReAQDTzZP2oEqmAKSqp5lkmSw5w4F7CxExKcyHLU2BRcdy
-CLQ3QW5kcmVhIERlbmlzc2UgR8OzbWV6LU1hcnTDrW5leiA8YXJjaGxpbnV4QGRl
-bmlzc2UuZGV2PoiWBBMWCAA+FiEEPf+XRbzeX0/zqr4OE91Jkd2YtkgFAmC9pNgC
-GwMFCQWjmoAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AACgkQE91Jkd2YtkgmygD8
-D7MN1c2FCCdbyhVeT1p1teb2pjnNLIgt9SjvImBb+PABAI4H1KF1f+y47IEqCO5R
-y9e8aS/qYpBz74Fg6aPXUtIPiJYEExYIAD4CGwMFCQWjmoACHgECF4AWIQQ9/5dF
-vN5fT/Oqvg4T3UmR3Zi2SAUCYMLieAULCQgHAwUVCgkICwUWAgMBAAAKCRAT3UmR
-3Zi2SMffAPsHfEwd6I8/pK2xYY4Nf4Miv3S3Mfk9DAL0j9mjO3tH3AD+MI0ZjDeE
-lt763qjtd8KR0R0InBpgAQeVFLjvX09EGAK0MUFuZHJlYSBEZW5pc3NlIEfDs21l
-ei1NYXJ0w61uZXogPGdpdEBkZW5pc3NlLmRldj6IlgQTFggAPhYhBD3/l0W83l9P
-86q+DhPdSZHdmLZIBQJgvaSUAhsDBQkFo5qABQsJCAcCBhUKCQgLAgQWAgMBAh4B
-AheAAAoJEBPdSZHdmLZIKmcA/0PfWewfXXtcGQY0wP2wfMgrlpV8j9TUGF3JsKGL
-ehoFAP9QoIhYNyOOHj258aIfEoeZ1o0CGQZYt+/dcQmmRMnpBIiWBBMWCAA+AhsD
-BQkFo5qAAh4BAheAFiEEPf+XRbzeX0/zqr4OE91Jkd2YtkgFAmDC4ngFCwkIBwMF
-FQoJCAsFFgIDAQAACgkQE91Jkd2YtkjyDwD/WhSm5VUHzh3SWcr/Kn0rC7OeOlr4
-29WYyBcQuzZvRFUBAPUnicSscJ+28OdEJlqP098iX806+ifQXKe3Htg9XFMIuDgE
-YL2DaBIKKwYBBAGXVQEFAQEHQGG7JBcdJDAs6jFkTa3Nl8Mix1aTRVg6fVJp2MON
-qeA2AwEIB4h+BBgWCAAmFiEEPf+XRbzeX0/zqr4OE91Jkd2YtkgFAmC9g2gCGwwF
-CQWjmoAACgkQE91Jkd2Ytkg2OgD8CKMpVkQfaZOq8ISwdRoh/zZiud8w5s/NlDkW
-Ib9D70oBAIKGu1LD7z/XjaFTN0dehqf9mLslSH06825Hk7HFms0BuDMEYL2KRBYJ
-KwYBBAHaRw8BAQdALxyY9BuQYR6BZ8zweCCslBnSRDkCIA46W0Bl1ztda3uI9QQY
-FggAJhYhBD3/l0W83l9P86q+DhPdSZHdmLZIBQJgvYpEAhsCBQkFo5qAAIEJEBPd
-SZHdmLZIdiAEGRYIAB0WIQQPmg0Dk901rKJtKO5eVwxxMccDCAUCYL2KRAAKCRBe
-VwxxMccDCA0qAP922g/rKwj9LNtAi08H+a7gUvFw0xay9zj8+fOw5hwgXQEAkB4R
-dzl5d523+zG1UveMEQmQnTCUzQqpen/gBDsLzw8UYQD/VfH95//O/iizNeBNaVBD
-U/ow3AKuPhUt3OcDQYMIZawBAMeQm83RFzIvMCLNEAVrLSzjKaYxW/1UkiWR73aK
-2xIIuDMEYMLc3RYJKwYBBAHaRw8BAQdACRMich0WrV8K03orslZTEShqED8mBqol
-6vVZM1uLgsKIfgQYFggAJhYhBD3/l0W83l9P86q+DhPdSZHdmLZIBQJgwtzdAhsg
-BQkFo5qAAAoJEBPdSZHdmLZIKL0A/0NVXqulifh6AKaoE/pt9Wzf2iKqDMvrjimg
-50kBTr3uAP9jE0DxoM+K3PeFwKVO6wTm2m7dD+WAei3lHGu9mMBFCA==
-=xtP7
------END PGP PUBLIC KEY BLOCK-----
-```
+I’m also deeply interested in cybersecurity. I regularly explore topics in software and systems security, occasionally participate in CTF competitions, and enjoy studying real-world vulnerabilities and exploitation techniques — always with a white-hat mindset.
+
+Outside of software, I love working on DIY hardware projects — from hobby robotics to home automation and small-scale electronics builds. I find joy in blending the digital and physical worlds, whether I'm flashing firmware or soldering components on a custom PCB.
+
+I'm also a pianist at heart, and I deeply enjoy interpreting classical music. Chopin is my favorite composer — his emotional range and technical elegance resonate with how I approach both music and code.
+
+When I'm not hacking on something new, you’ll probably find me cycling long distances on the road or gravel, experimenting in the kitchen, or out hiking with my three dogs — Shiva, Cobol, and Wiki.
+
+This blog is a space for me to share thoughts, tutorials, and deep dives on tech, open source, and life. Thanks for stopping by!

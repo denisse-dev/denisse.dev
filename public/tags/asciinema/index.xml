@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Asciinema on andrea denisse</title>
+        <link>http://localhost:1313/tags/asciinema/</link>
+        <description>Recent content in Asciinema on andrea denisse</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/asciinema/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Manteniendo paquetes del AUR de Arch Linux</title>
+        <link>http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/</link>
+        <pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/</guid>
+        <description>&lt;img src="http://localhost:1313/post/manteniendo-paquetes-del-aur-de-arch-linux/magda-ehlers-selective-focus-photography-of-a-gray-penguin.jpg" alt="Featured image of post Manteniendo paquetes del AUR de Arch Linux" /&gt;&lt;h2 id=&#34;el-aur&#34;&gt;&lt;a href=&#34;#el-aur&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;El AUR
+&lt;/h2&gt;&lt;p&gt;Una de las cosas que más me gustan de usar &lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Arch Linux&lt;/a&gt; es el &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;AUR&lt;/a&gt;, un repositorio comunitario con miles de &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/PKGBUILD_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PKGBUILD&lt;/a&gt; que permiten instalar y actualizar programas fácilmente y que favorece la colaboración comunitaria.&lt;/p&gt;
+&lt;h2 id=&#34;mi-entorno&#34;&gt;&lt;a href=&#34;#mi-entorno&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Mi entorno
+&lt;/h2&gt;&lt;p&gt;Al editar un &lt;strong&gt;PKGBUILD&lt;/strong&gt; uso el modo &lt;a class=&#34;link&#34; href=&#34;https://melpa.org/#/pkgbuild-mode&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;pkgbuild-mode&lt;/a&gt; en &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Emacs_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Emacs&lt;/a&gt; para tener resaltado de sintaxis, validación de sintaxis y autocompletado.&lt;/p&gt;
+&lt;p&gt;Con el siguiente snippet de &lt;a class=&#34;link&#34; href=&#34;https://www.gnu.org/software/emacs/manual/html_node/elisp/index.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Emacs Lisp&lt;/a&gt; habilito la detección de archivos &lt;strong&gt;PKGBUILD&lt;/strong&gt; para automáticamente iniciar &lt;strong&gt;pkgbuild-mode&lt;/strong&gt; en Emacs:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-emacs-lisp&#34; data-lang=&#34;emacs-lisp&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;autoload&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;pkgbuild-mode&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;pkgbuild-mode.el&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;PKGBUILD mode.&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; (setq auto-mode-alist (&lt;span style=&#34;color:#a6e22e&#34;&gt;append&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;#39;&lt;/span&gt;((&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/PKGBUILD$&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt; pkgbuild-mode))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			  auto-mode-alist))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Recomiendo instalar y configurar los siguientes paquetes:&lt;/p&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/paru/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;paru&lt;/a&gt;: &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/AUR_helpers_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Ayudante de AUR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/packages/extra/any/namcap/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;namcap&lt;/a&gt;: Para detectar errores en archivos PKGBUILD.&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/packages/community/any/aurpublish/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;aurpublish&lt;/a&gt;: Framework para interactuar con el AUR.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;tipos-de-paquetes&#34;&gt;&lt;a href=&#34;#tipos-de-paquetes&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Tipos de paquetes
+&lt;/h2&gt;&lt;p&gt;En el &lt;strong&gt;AUR&lt;/strong&gt; podemos encontrar 3 tipos de paquetes que podemos identificar como &lt;strong&gt;PAQUETE&lt;/strong&gt;, &lt;strong&gt;PAQUETE-bin&lt;/strong&gt; y &lt;strong&gt;PAQUETE-git&lt;/strong&gt;. Usaré el paquete &lt;a class=&#34;link&#34; href=&#34;https://oauth2-proxy.github.io/oauth2-proxy/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;oauth2-proxy&lt;/a&gt; como ejemplo:&lt;/p&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/oauth2-proxy/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;oauth2-proxy&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;El paquete &lt;strong&gt;oauth2-proxy&lt;/strong&gt; descarga y compila el código fuente de un release de &lt;strong&gt;oauth2-proxy&lt;/strong&gt; que se identifica con un tag de &lt;a class=&#34;link&#34; href=&#34;https://git-scm.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Git&lt;/a&gt; en upstream.&lt;/p&gt;
+&lt;p&gt;Ventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Provee una versión considerada estable del paquete&lt;/li&gt;
+&lt;li&gt;El binario se puede compilar para múltiples arquitecturas&lt;/li&gt;
+&lt;li&gt;El binario se puede optimizar para tu equipo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Desventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Compilarlo puede ser tardado en ciertos equipos&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/oauth2-proxy-bin/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;oauth2-proxy-bin&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;El paquete &lt;strong&gt;oauth2-proxy-bin&lt;/strong&gt; descarga un binario para las arquitecturas soportadas un release de &lt;strong&gt;oauth2-proxy-bin&lt;/strong&gt; en upstream.&lt;/p&gt;
+&lt;p&gt;Ventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Provee una versión considerada estable del paquete&lt;/li&gt;
+&lt;li&gt;No requiere compilar un binario&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Desventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Puede no haber binarios en upstream para ciertas arquitecturas&lt;/li&gt;
+&lt;li&gt;Puede que el binario no esté optimizado para tu equipo&lt;/li&gt;
+&lt;li&gt;Puede que el binario no esté hardenizado&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/oauth2-proxy-git/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;oauth2-proxy-git&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;El paquete &lt;strong&gt;oauth2-proxy-bin&lt;/strong&gt; descarga y compila el código fuente del último commit de &lt;strong&gt;oauth2-proxy-bin&lt;/strong&gt; en upstream.&lt;/p&gt;
+&lt;p&gt;Ventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Provee los cambios más recientes publicados en upstream&lt;/li&gt;
+&lt;li&gt;El &lt;strong&gt;PKGBUILD&lt;/strong&gt; es fácil de mantener pues no se hace validación por checksums&lt;/li&gt;
+&lt;li&gt;El binario se puede compilar para múltiples arquitecturas&lt;/li&gt;
+&lt;li&gt;El binario se puede optimizar para tu equipo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Desventajas:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Compilarlo puede ser tardado en ciertos equipos&lt;/li&gt;
+&lt;li&gt;Puede tener cambios considerados inestables&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Aunque los 3 paquetes tienen un nombre diferente en el &lt;strong&gt;AUR&lt;/strong&gt; el paquete que instalan debe llamarse &lt;strong&gt;oauth2-proxy&lt;/strong&gt; y tener conflicto con &lt;strong&gt;oauth2-proxy&lt;/strong&gt; para evitar que &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Pacman_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;pacman&lt;/a&gt; instale diferentes versiones de un mismo paquete al mismo tiempo&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pkgname&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;oauth2-proxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;provides&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;$pkgname&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conflicts&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;$pkgname&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;contribuyendo-al-aur&#34;&gt;&lt;a href=&#34;#contribuyendo-al-aur&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Contribuyendo al AUR
+&lt;/h2&gt;&lt;p&gt;Una de las primeras maneras de contribuir a Arch Linux y el primer paso para ser &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Trusted_Users_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Trusted User&lt;/a&gt; es mantener paquetes para el AUR&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;Sigo los siguientes pasos al empaquetar software para el AUR.&lt;/p&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#escoger-lo-que-voy-a-empaquetar&#34; &gt;Escoger lo que voy a empaquetar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#definir-lo-que-un-pkgbuild-debe-instalar&#34; &gt;Definir lo que un PKGBUILD debe instalar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#validar-el-pkgbuild&#34; &gt;Validar el PKGBUILD&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#actualizar-checksums&#34; &gt;Actualizar checksums&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#construir-el-paquete&#34; &gt;Construir el paquete&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#instalar-el-paquete&#34; &gt;Instalar el paquete&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#generar-srcinfo&#34; &gt;Generar .SRCINFO&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;#publicar-el-paquete&#34; &gt;Publicar el paquete&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;escoger-lo-que-voy-a-empaquetar&#34;&gt;&lt;a href=&#34;#escoger-lo-que-voy-a-empaquetar&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Escoger lo que voy a empaquetar
+&lt;/h3&gt;&lt;p&gt;El primer paso es verificar que lo que queremos empaquetar no se encuentre disponible ni en los &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Official_repositories_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Repositorios Oficiales&lt;/a&gt; ni en el &lt;strong&gt;AUR&lt;/strong&gt; para evitar tener paquetes duplicados.&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;Para crear el repositorio de un paquete nuevo con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/git.1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;git(1)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ git clone ssh://aur@aur.archlinux.org/&amp;lt;PAQUETE&amp;gt;.git
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Para clonar el repositorio de un &lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/?SB=n&amp;amp;do_Orphans=Orphans&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;paquete huérfano&lt;/a&gt; con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/aurpublish.1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;aurpublish(1)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ aurpublish -p &amp;lt;PAQUETE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;definir-lo-que-un-pkgbuild-debe-instalar&#34;&gt;&lt;a href=&#34;#definir-lo-que-un-pkgbuild-debe-instalar&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Definir lo que un PKGBUILD debe instalar
+&lt;/h3&gt;&lt;p&gt;Un &lt;strong&gt;PKGBUILD&lt;/strong&gt; debe instalar lo siguiente:&lt;/p&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;Instalar el paquete.&lt;/li&gt;
+&lt;li&gt;Instalar la licencia el paquete usa una licencia que no se encuentra en el archivo &lt;a class=&#34;link&#34; href=&#34;https://archlinux.org/packages/core/any/licenses/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;licenses&lt;/a&gt; (ej. &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/MIT_License&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;MIT&lt;/a&gt;).&lt;sup id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;Instalar la configuración por defecto si existe en upstream.&lt;/li&gt;
+&lt;li&gt;Instalar los &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Daemons_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;demonios&lt;/a&gt; si existen en upstream.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Y debe hacerlo siguiendo la &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Arch_package_guidelines_%28Espa%C3%B1ol%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Guía para paquetes de Arch&lt;/a&gt;, la guía para paquetes específica del lenguaje que estás empaquetando y las &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29#Reglas_de_env%C3%ADo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reglas de envío del AUR&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;El &lt;a class=&#34;link&#34; href=&#34;https://github.com/da-edra/pkgbuilds/blob/trunk/oauth2-proxy/PKGBUILD&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PKGBUILD&lt;/a&gt; que escribí para &lt;strong&gt;oauth2-proxy&lt;/strong&gt; seguí la Guía para paquetes de Arch y la &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Go_package_guidelines&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Guía para paquetes de Go&lt;/a&gt; para obtener un binario hardenizado usando compilación &lt;a class=&#34;link&#34; href=&#34;https://en.wikipedia.org/wiki/Position-independent_code&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;PIE&lt;/a&gt; y mejorar la &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Reproducible_Builds&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;reproducibilidad del paquete&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Maintainer: Andrea Denisse Gómez-Martínez &amp;lt;denisse at archlinux dot org&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pkgname&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;oauth2-proxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pkgdesc&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;A reverse proxy that provides authentication with Google, Github or other providers.&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;arch&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;any&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;url&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://oauth2-proxy.github.io/oauth2-proxy/&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;_url&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://github.com/oauth2-proxy/oauth2-proxy&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;_branch&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;master&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pkgver&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;7.2.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pkgrel&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;license&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;MIT&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;makedepends&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;go sed&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;source&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.tar.gz::&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;_url&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;/archive/v&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;.tar.gz&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b2sums&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;cb40e2be2ab335289d2785382fedb3f57cd9b1f7d67311d247e692e22a135f51cf460b534196981e9e87f31ab44500f92d5e938701f2a45971a0f20178f66dd5&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;provides&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;$pkgname&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conflicts&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;$pkgname&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;prepare&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cd &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  mkdir -p build
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  sed -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;s|/usr/local/bin/oauth2-proxy|/usr/bin/oauth2-proxy|&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;contrib/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;.service.example&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;check&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cd &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  go test ./...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;build&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cd &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  export CGO_LDFLAGS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;LDFLAGS&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  export CGO_CFLAGS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;CFLAGS&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  export CGO_CPPFLAGS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;CPPFLAGS&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  export CGO_CXXFLAGS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;CXXFLAGS&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  export GOFLAGS&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  go build -o build/ .
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;package&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  cd &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;pkgver&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  install -Dm755 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;build/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$pkgdir&lt;span style=&#34;color:#e6db74&#34;&gt;/usr/bin/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  install -Dm644 LICENSE &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$pkgdir&lt;span style=&#34;color:#e6db74&#34;&gt;/usr/share/licenses/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;/LICENSE&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  install -Dm644 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;contrib/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;.cfg.example&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$pkgdir&lt;span style=&#34;color:#e6db74&#34;&gt;/etc/oauth2-proxy.cfg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  install -Dm644 &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;contrib/&lt;/span&gt;$pkgname&lt;span style=&#34;color:#e6db74&#34;&gt;.service.example&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;$pkgdir&lt;span style=&#34;color:#e6db74&#34;&gt;/usr/lib/systemd/system/oauth2-proxy.service&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;validar-el-pkgbuild&#34;&gt;&lt;a href=&#34;#validar-el-pkgbuild&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Validar el PKGBUILD
+&lt;/h3&gt;&lt;p&gt;Para buscar errores comunes en el PKGBUILD uso &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/namcap.1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;namcap(1)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ namcap PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Algunos paquetes incluyen una función &lt;strong&gt;check()&lt;/strong&gt; en la que se pueden agregar validaciones adicionales como ejecutar los tests que el paquete contiene upstream.&lt;sup id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;La configuración por defecto del archivo &lt;strong&gt;makepkg.conf&lt;/strong&gt; ejecuta la función &lt;strong&gt;check()&lt;/strong&gt; si ésta se encuentra en el &lt;strong&gt;PKGBUILD&lt;/strong&gt;.&lt;sup id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;. &lt;strong&gt;check()&lt;/strong&gt; también se puede ejecutar manualmente:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ makepkg --check PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;actualizar-checksums&#34;&gt;&lt;a href=&#34;#actualizar-checksums&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Actualizar checksums
+&lt;/h3&gt;&lt;p&gt;El &lt;strong&gt;PKGBUILD&lt;/strong&gt; de paquetes de tipo &lt;strong&gt;PAQUETE&lt;/strong&gt; y &lt;strong&gt;PAQUETE-bin&lt;/strong&gt; debe tener &lt;strong&gt;checksums&lt;/strong&gt; que permiten verificar la integridad del paquete bajado de upstream.&lt;/p&gt;
+&lt;p&gt;Si un paquete incluye &lt;strong&gt;checksums&lt;/strong&gt; en upstream es importante usar esos &lt;strong&gt;checksums&lt;/strong&gt; en el &lt;strong&gt;PKGBUILD&lt;/strong&gt; para garantizar la integridad del paquete desde su publicación en upstream hasta su instalación en local:&lt;sup id=&#34;fnref:7&#34;&gt;&lt;a href=&#34;#fn:7&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b2sums&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;79586b8592a246ddb9a75752329e94bcc8d8924dcbe2eb2c7bdd1a11981e4ee39abcea86fb7b76e8c54dc8dd0f20d8b5d4b5f63025380f1ed9efbcca8c9b0bb7&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Si un paquete no cuenta con hashes en upstream estos se pueden generar con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/updpkgsums.8.en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;updpkgsums(8)&lt;/a&gt; :&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;updpkgsums PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;En el caso de &lt;strong&gt;PACKAGE-git&lt;/strong&gt; se debe saltar la validación de checksums:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;b2sums&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;SKIP&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;construir-el-paquete&#34;&gt;&lt;a href=&#34;#construir-el-paquete&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Construir el paquete
+&lt;/h3&gt;&lt;p&gt;Los &lt;a class=&#34;link&#34; href=&#34;https://aur.archlinux.org/packages/?O=0&amp;amp;SeB=M&amp;amp;K=denisse&amp;amp;outdated=&amp;amp;SB=n&amp;amp;SO=a&amp;amp;PP=50&amp;amp;do_Search=Go&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;paquetes que mantengo&lt;/a&gt; están organizados en carpetas que llevan el nombre del paquete. Cada carpeta contiene un archivo &lt;strong&gt;PKGBUILD&lt;/strong&gt; y un archivo &lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/.SRCINFO&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;.SRCINFO&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── oaut2-proxy
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│  ├── .SRCINFO
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│  └── PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├── oaut2-proxy-bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│  ├── .SRCINFO
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│  └── PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;└── oaut2-proxy-git
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   ├── .SRCINFO
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   └── PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Construyo el paquete con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/makepkg.8.en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;makepkg(8)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ makepkg --clean --syncdeps --force
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&amp;ndash;clean&lt;/strong&gt; limpia el directorio después de construir el paquete&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;ndash;syncdeps&lt;/strong&gt; instala dependencias faltantes&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&amp;ndash;force&lt;/strong&gt; sobrescribe un paquete ya construido&lt;/p&gt;
+&lt;h3 id=&#34;instalar-el-paquete&#34;&gt;&lt;a href=&#34;#instalar-el-paquete&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Instalar el paquete
+&lt;/h3&gt;&lt;p&gt;Instalo el paquete con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/makepkg.8.en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;makepkg(8)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ makepkg --install
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Realizo las siguientes validaciones:&lt;/p&gt;
+&lt;ol start=&#34;0&#34;&gt;
+&lt;li&gt;El paquete funciona como se espera.&lt;/li&gt;
+&lt;li&gt;Si se necesitan licencias éstas están instaladas.&lt;/li&gt;
+&lt;li&gt;Si hay una configuración por defecto ésta está instalada y funciona.&lt;/li&gt;
+&lt;li&gt;Si en upstream hay demonios estos están instalados y funcionan.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;generar-srcinfo&#34;&gt;&lt;a href=&#34;#generar-srcinfo&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Generar .SRCINFO
+&lt;/h3&gt;&lt;p&gt;Genero el archivo &lt;strong&gt;.SRCINFO&lt;/strong&gt; con &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/makepkg.8.en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;makepkg(8)&lt;/a&gt;. &lt;strong&gt;.SRCINFO&lt;/strong&gt; contiene metadatos organizados en pares de &lt;code&gt;llave = valor&lt;/code&gt; que son más fáciles y seguros de parsear que un PKGBUILD.&lt;sup id=&#34;fnref:8&#34;&gt;&lt;a href=&#34;#fn:8&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;8&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ makepkg --printsrcinfo &amp;gt; .SRCINFO
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;publicar-el-paquete&#34;&gt;&lt;a href=&#34;#publicar-el-paquete&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Publicar el paquete
+&lt;/h3&gt;&lt;p&gt;El último paso es usar &lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/aurpublish.1&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;aurpublish(1)&lt;/a&gt; para publicar el paquete:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ aurpublish PACKAGE
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;De esta forma nuestro paquete estará publicado en el AUR. 😊&lt;/p&gt;
+&lt;h2 id=&#34;makefile-para-publicar-paquetes&#34;&gt;&lt;a href=&#34;#makefile-para-publicar-paquetes&#34; class=&#34;header-anchor&#34;&gt;&lt;/a&gt;Makefile para publicar paquetes
+&lt;/h2&gt;&lt;p&gt;Para facilitar el publicar paquetes uso un &lt;a class=&#34;link&#34; href=&#34;https://github.com/da-edra/pkgbuilds/blob/trunk/Makefile&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Makefile&lt;/a&gt; que contiene las instrucciones descritas en la sección anterior:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-makefile&#34; data-lang=&#34;makefile&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;.PHONY&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; help check-pkg update-checksums build-pkg install-pkg update-srcinfo update-pkg publish
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;.DEFAULT_GOAL &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; help
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;help&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	@grep -E &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;^[a-zA-Z_-]+:.*?## .*$$&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;MAKEFILE_LIST&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt; | awk &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;BEGIN {FS = &amp;#34;:.*?## &amp;#34;}; {printf &amp;#34;\033[36m%-30s\033[0m %s\n&amp;#34;, $$1, $$2}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;check-pkg&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## check PKGBUILDs for common packaging mistakes.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	namcap &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;/PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Done checking the package&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;update-checksums&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## update PKGBUILD checksums
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	updpkgsums &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;/PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Done updating checksums&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;build-pkg&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## build the PKGBUILD
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cd &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;	makepkg --clean --syncdeps -f &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;	echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Done building the PKGBUILD&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;install-pkg&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## install the package after building it
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cd &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;	makepkg --install
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Done installing the package&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;update-srcinfo&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## print SRCINFO into a file
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	cd &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;	makepkg --printsrcinfo &amp;gt; .SRCINFO &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;&lt;/span&gt;	echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Done updating the .SRCINFO&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;update-pkg&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; check-pkg update-checksums build-pkg install-pkg update-srcinfo &lt;span style=&#34;color:#75715e&#34;&gt;## update and upload the package to the AUR
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;publish&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;## publish the PKGBUILD to the AUR
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;	aurpublish &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;pkg&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Actualizando un &lt;strong&gt;PKGBUILD&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;make update-pkg pkg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;PACKAGE
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Publicando un &lt;strong&gt;PKGBUILD&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;make publish pkg&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;PACKAGE
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://asciinema.org/a/459688&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;img src=&#34;https://asciinema.org/a/459688.svg&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;asciinema: Writing M&amp;#43; OTF font’s PKGBUILD&#34;
+	
+	
+&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/PKGBUILD#conflicts&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Conflictos en paquetes del AUR&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Trusted_Users_%28Espa%C3%B1ol%29#%C2%BFC%C3%B3mo_me_convierto_en_un_TU?&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Requisitos mínimos para ser Trusted User&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Arch_User_Repository_%28Espa%C3%B1ol%29#Reglas_de_env%C3%ADo&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Reglas de envío para el AUR&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/PKGBUILD#license&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Instalar la LICENCIA del paquete&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:4&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/Creating_packages#check%28%29&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Función check() de un PKGBUILD&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:5&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://man.archlinux.org/man/makepkg.conf.5.en&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Configuración por defecto de makepkg.conf&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:6&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:7&#34;&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://wiki.archlinux.org/title/PKGBUILD#Integrity&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Validar la integridad del paquete con checksums&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:7&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:8&#34;&gt;
+&lt;p&gt;Diferentes problemas encontrados en al parsear PKGBUILD: &lt;a class=&#34;link&#34; href=&#34;https://bugs.archlinux.org/task/25210&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;FS#25210&lt;/a&gt;, &lt;a class=&#34;link&#34; href=&#34;https://bugs.archlinux.org/task/15043&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;FS#15043&lt;/a&gt;, y &lt;a class=&#34;link&#34; href=&#34;https://bugs.archlinux.org/task/16394&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;FS#16394&lt;/a&gt;&amp;#160;&lt;a href=&#34;#fnref:8&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

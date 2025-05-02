@@ -1,0 +1,190 @@
+baseURL = 'https://denisse.dev'
+languageCode = 'en-us'
+title = 'andrea denisse'
+theme = "github.com/CaiJimmy/hugo-theme-stack"
+
+[module]
+  [[module.imports]]
+    path = "github.com/CaiJimmy/hugo-theme-stack/v3"
+    version = "v3.30.0"
+  [module.hugoVersion]
+    extended = true
+    min = "0.87.0"
+
+[menu]
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 1
+  identifier = "home"
+    [menu.main.params]
+        icon = "home"
+
+[[menu.main]]
+  name = "Archives"
+  url = "/archives"
+  weight = 3
+  identifier = "archives"
+    [menu.main.params]
+        icon = "archive"
+
+[[menu.main]]
+  name = "Search"
+  url = "/search"
+  weight = 4
+  identifier = "search"
+    [menu.main.params]
+        icon = "search"
+
+[[menu.social]]
+  name = "github"
+  url = "https://github.com/denisse-dev/"
+  [menu.social.params]
+     icon = "brand-github"
+
+[[menu.social]]
+  name = "gitlab"
+  url = "https://gitlab.com/denisse.dev"
+  [menu.social.params]
+     icon = "brand-gitlab"
+
+[params]
+  mainSections = ["post"]
+  featuredImageField = "image"
+  rssFullContent = true
+  favicon = "favicon.png"
+
+  [params.footer]
+    since = "2021"
+    customText = "Made with 💖"
+
+  [params.dateFormat]
+    published = "Jan 02, 2006"
+    lastUpdated = "Jan 02, 2006 15:04 MST"
+
+  [params.sidebar]
+    compact = false
+    emoji = ""
+    subtitle = "Open Source Developer"
+    [params.sidebar.avatar]
+      enabled = true
+      local = true
+      src = "img/avatar.png"
+
+  [params.article]
+    headingAnchor = true
+    math = false
+    toc = true
+    readingTime = true
+    [params.article.license]
+      enabled = false
+      default = "Licensed under CC BY-NC-SA 4.0"
+
+  [params.comments]
+    enabled = false
+    provider = "disqus"
+
+    [params.comments.disqusjs]
+      shortname = ""
+      apiUrl = ""
+      apiKey = ""
+      admin = ""
+      adminLabel = ""
+
+    [params.comments.utterances]
+      repo = ""
+      issueTerm = "pathname"
+      label = ""
+
+    [params.comments.beaudar]
+      repo = ""
+      issueTerm = "pathname"
+      label = ""
+      theme = ""
+
+    [params.comments.remark42]
+      host = ""
+      site = ""
+      locale = ""
+
+    [params.comments.vssue]
+      platform = ""
+      owner = ""
+      repo = ""
+      clientId = ""
+      clientSecret = ""
+      autoCreateIssue = false
+
+    [params.comments.waline]
+      serverURL = ""
+      lang = ""
+      visitor = ""
+      avatar = ""
+      emoji = ["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"]
+      requiredMeta = ["nick", "mail"]
+      [params.comments.waline.locale]
+        admin = "Admin"
+        placeholder = ""
+
+    [params.comments.twikoo]
+      envId = ""
+      region = ""
+      path = ""
+      lang = ""
+
+    [params.comments.giscus]
+      repo = ""
+      repoID = ""
+      category = ""
+      categoryID = ""
+      mapping = ""
+      strict = ""
+      lightTheme = ""
+      darkTheme = ""
+      reactionsEnabled = 1
+      emitMetadata = 0
+      inputPosition = ""
+      lang = ""
+
+    [params.comments.gitalk]
+      owner = ""
+      admin = ""
+      repo = ""
+      clientID = ""
+      clientSecret = ""
+
+    [params.comments.cusdis]
+      host = ""
+      id = ""
+
+  [params.widgets]
+    homepage = [
+      { type = "archives", params = { limit = 10 } },
+      { type = "search" },
+      { type = "categories", params = { limit = 10 } },
+      { type = "toc" },
+      { type = "tag-cloud", params = { limit = 10 } }
+    ]
+    page = [
+      { type = "toc" },
+      { type = "tag-cloud" }
+    ]
+
+  [params.opengraph.twitter]
+    site = ""
+    card = "summary_large_image"
+
+  [params.defaultImage.opengraph]
+    enabled = true
+    local = true
+    src = "img/banner.png"
+
+  [params.colorScheme]
+    toggle = true
+    default = "auto"
+
+  [params.imageProcessing.cover]
+    enabled = true
+
+  [params.imageProcessing.content]
+    enabled = true
