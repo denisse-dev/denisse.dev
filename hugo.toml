@@ -26,7 +26,7 @@ theme = "github.com/CaiJimmy/hugo-theme-stack"
   weight = 3
   identifier = "archives"
     [menu.main.params]
-        icon = "archive"
+        icon = "archives"
 
 [[menu.main]]
   name = "Search"
@@ -188,3 +188,6 @@ theme = "github.com/CaiJimmy/hugo-theme-stack"
 
   [params.imageProcessing.content]
     enabled = true
+
+  [params.assets]
+    customSCSS = "scss/variables.scss"

@@ -8,19 +8,20 @@
         <language>en-us</language>
         <lastBuildDate>Mon, 13 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>About me</title>
-        <link>http://localhost:1313/page/about-me/</link>
-        <pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate>
-        
-        <guid>http://localhost:1313/page/about-me/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>About me</title>
         <link>http://localhost:1313/page/about/</link>
         <pubDate>Mon, 13 Dec 2021 00:00:00 +0000</pubDate>
         
         <guid>http://localhost:1313/page/about/</guid>
-        <description></description>
+        <description>&lt;img src="http://localhost:1313/img/banner.png" alt="Featured image of post About me" /&gt;&lt;p&gt;Hi! I&amp;rsquo;m Andrea Denisse — a passionate open source software developer dedicated to knowledge sharing and digital preservation.&lt;/p&gt;
+&lt;p&gt;I work across a variety of technologies, with a strong focus on systems programming and infrastructure. I&amp;rsquo;m fluent in Rust, Go, and Python, though I enjoy exploring different languages and tools just as much as building things with them.&lt;/p&gt;
+&lt;p&gt;By day, I work as a Site Reliability Engineer (SRE) at the Wikimedia Foundation, helping to keep Wikipedia and its sister projects fast, stable, and available to everyone, everywhere. Please note that all opinions expressed on this blog are my own and do not represent those of my employer.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m a longtime Arch Linux user and an avid Emacs enthusiast. Whether it&amp;rsquo;s customizing my workflow, contributing to projects, or diving into new tools, I believe in the power of open ecosystems and community collaboration.&lt;/p&gt;
+&lt;p&gt;I’m also deeply interested in cybersecurity. I regularly explore topics in software and systems security, occasionally participate in CTF competitions, and enjoy studying real-world vulnerabilities and exploitation techniques — always with a white-hat mindset.&lt;/p&gt;
+&lt;p&gt;Outside of software, I love working on DIY hardware projects — from hobby robotics to home automation and small-scale electronics builds. I find joy in blending the digital and physical worlds, whether I&amp;rsquo;m flashing firmware or soldering components on a custom PCB.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m also a pianist at heart, and I deeply enjoy interpreting classical music. Chopin is my favorite composer — his emotional range and technical elegance resonate with how I approach both music and code.&lt;/p&gt;
+&lt;p&gt;When I&amp;rsquo;m not hacking on something new, you’ll probably find me cycling long distances on the road or gravel, experimenting in the kitchen, or out hiking with my three dogs — Shiva, Cobol, and Wiki.&lt;/p&gt;
+&lt;p&gt;This blog is a space for me to share thoughts, tutorials, and deep dives on tech, open source, and life. Thanks for stopping by!&lt;/p&gt;
+</description>
         </item>
         <item>
         <title>Archives</title>
